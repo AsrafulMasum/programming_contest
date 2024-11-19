@@ -13,10 +13,8 @@ const SignUp = () => {
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
   const axiosPublic = useAxiosPublic();
-
-  const { signUpWithEmail, updateUser, logOut } = useAuth();
-
   const navigate = useNavigate();
+  const { signUpWithEmail, updateUser, logOut } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -77,7 +75,7 @@ const SignUp = () => {
               })
                 .then((res) => res.json())
                 .then((data) => {
-                  if (data?.insertedId) {
+                  if (data?.insertedId || data?.success) {
                     toast.success("Sign Up Successful.", { id: toastId });
                     updateUser(name, photoURL)
                       .then(() => {
@@ -105,7 +103,7 @@ const SignUp = () => {
   return (
     <div className="w-full max-w-sm p-6 m-auto mx-auto rounded border border-[#ABABAB] my-10">
       <div>
-        <h2 className="text-lg font-bold">Create An Account</h2>
+        <h2 className="text-lg font-bold text-white">Create An Account</h2>
       </div>
 
       <form onSubmit={handleSignUp} className="mt-6">
@@ -116,7 +114,7 @@ const SignUp = () => {
           onChange={handleChange}
           placeholder="Name"
           required
-          className="block w-full text-xs placeholder:text-white text-white py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
+          className="block w-full text-sm placeholder:text-white text-white py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
         />
 
         <input
@@ -126,7 +124,7 @@ const SignUp = () => {
           onChange={handleChange}
           placeholder="Email"
           required
-          className="block w-full text-xs placeholder:text-white text-white py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
+          className="block w-full text-sm placeholder:text-white text-white py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
         />
 
         <div className="mt-4 relative">
@@ -137,7 +135,7 @@ const SignUp = () => {
             onChange={handleChange}
             placeholder="Password"
             required
-            className="block w-full text-xs placeholder:text-white text-white py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
+            className="block w-full text-sm placeholder:text-white text-white py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
           />
           <div
             className="absolute right-2 top-3 inline-block cursor-pointer"
@@ -155,7 +153,7 @@ const SignUp = () => {
             onChange={handleChange}
             placeholder="Confirm Password"
             required
-            className="block w-full text-xs placeholder:text-white text-white py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
+            className="block w-full text-sm placeholder:text-white text-white py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
           />
           <div
             className="absolute right-2 top-3 inline-block cursor-pointer"
@@ -198,13 +196,13 @@ const SignUp = () => {
         </div>
 
         <div className="mt-6">
-          <button className="w-full px-6 py-2.5 text-sm font-medium tracking-wide rounded-sm bg-active-color text-white">
+          <button className="w-full px-6 py-2.5 font-medium tracking-wide rounded-sm bg-active-color text-white">
             Sign Up
           </button>
         </div>
       </form>
 
-      <p className="mt-8 text-xs font-light text-center">
+      <p className="mt-8 font-light text-center text-gray-300">
         {" "}
         Already have an account?{" "}
         <Link

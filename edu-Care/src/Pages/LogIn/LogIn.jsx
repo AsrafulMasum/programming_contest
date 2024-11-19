@@ -1,19 +1,16 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
-import useData from "../../Hooks/useData";
 import { useState } from "react";
 import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 const LogIn = () => {
   const [show, setShow] = useState(false);
 
   const { signIn, googleSignIn } = useAuth();
-
-  const { dark } = useData();
-
+  const axiosPublic = useAxiosPublic();
   const location = useLocation();
-
   const navigate = useNavigate();
 
   const handleSignIn = (e) => {
@@ -23,31 +20,35 @@ const LogIn = () => {
     const password = form.password.value;
     form.reset();
 
-    const toastId = toast.loading('Logging In...')
-    
+    const toastId = toast.loading("Logging In...");
+
     signIn(email, password)
       .then(() => {
-        // if (res.user.emailVerified) {
-        toast.success("Login Successful.", {id: toastId});
+        toast.success("Login Successful.", { id: toastId });
         navigate(location?.state ? location.state : "/");
-        // } else {
-        //   emailVerification().then(() => {
-        //     toast.info("Please verify your email.");
-        //     logOut().then().catch();
-        //     return;
-        //   });
-        // }
       })
       .catch((err) => {
-        toast.error(err.message, {id: toastId});
+        toast.error(err.message, { id: toastId });
       });
   };
 
   const googleLogin = () => {
     googleSignIn()
-      .then(() => {
-        toast.success("Google Log In Success.");
-        navigate(location?.state ? location.state : "/");
+      .then(async (result) => {
+        if (result?.user) {
+          const userData = {
+            name: result?.user?.displayName,
+            email: result?.user?.email,
+            password: null,
+            photo_url: result?.user?.photoURL,
+            role: "User",
+          };
+          const res = await axiosPublic.post("/users", userData);
+          if (res?.data?.result?.insertedId || res?.data?.success) {
+            toast.success("Google Log In Success.");
+            navigate(location?.state ? location.state : "/");
+          }
+        }
       })
       .catch((err) => {
         toast.error(err.message);
@@ -58,7 +59,7 @@ const LogIn = () => {
     <div>
       <div className="w-full max-w-sm p-6 m-auto mx-auto rounded border border-[#ABABAB] my-10">
         <div>
-          <h2 className="text-lg font-bold">Log In</h2>
+          <h2 className="text-lg font-bold text-white">Log In</h2>
         </div>
 
         <form onSubmit={handleSignIn} className="mt-6">
@@ -68,11 +69,7 @@ const LogIn = () => {
               name="email"
               placeholder="Email"
               required
-              className={
-                dark
-                  ? "block w-full text-xs placeholder:text-white text-white py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
-                  : "block w-full text-xs placeholder:text-[#000000] text-[#000000] py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
-              }
+              className="block w-full text-sm placeholder:text-white text-white py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
             />
           </div>
 
@@ -82,11 +79,7 @@ const LogIn = () => {
               name="password"
               placeholder="Password"
               required
-              className={
-                dark
-                  ? "block w-full text-xs placeholder:text-white text-white py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
-                  : "block w-full text-xs placeholder:text-[#000000] text-[#000000] py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
-              }
+              className="block w-full text-sm placeholder:text-white text-white py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
             />
             <div
               className="absolute right-2 top-3 inline-block cursor-pointer"
@@ -96,38 +89,16 @@ const LogIn = () => {
             </div>
           </div>
 
-          <div className="flex justify-between mt-4">
-            <div className="flex gap-1">
-              <input
-                className="cursor-pointer accent-primary"
-                type="checkbox"
-                name="check"
-                id=""
-              />
-              <p className="text-xs">Remember Me</p>
-            </div>
-            <a
-              href="#"
-              className="text-xs text-active-color font-bold hover:underline"
-            >
-              Forget Password?
-            </a>
-          </div>
-
           <div className="mt-6">
             <button
-              className={
-                dark
-                  ? "w-full px-6 py-2.5 text-sm font-medium tracking-wide rounded-sm bg-active-color text-white"
-                  : "w-full px-6 py-2.5 text-sm font-medium tracking-wide rounded-sm bg-active-color"
-              }
+              className="w-full px-6 py-2.5 font-medium tracking-wide rounded-sm bg-active-color text-white"
             >
               Sign In
             </button>
           </div>
         </form>
 
-        <p className="mt-8 text-xs font-light text-center">
+        <p className="mt-8 font-light text-center text-gray-300">
           {" "}
           Don&#39;t have an account?{" "}
           <Link
@@ -139,11 +110,11 @@ const LogIn = () => {
         </p>
       </div>
 
-      <div className="max-w-sm mx-auto">
+      <div className="max-w-sm mx-auto text-gray-300">
         <div className="flex items-center justify-between mt-4">
           <span className="w-1/5 border-b border-[#ABABAB]"></span>
 
-          <a href="#" className="text-xs text-center uppercase hover:underline">
+          <a href="#" className="text-sm text-center uppercase hover:underline">
             or login with Social Media
           </a>
 

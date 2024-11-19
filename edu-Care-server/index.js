@@ -100,9 +100,16 @@ app.get("/users/:email", verifyCookie, async (req, res) => {
 });
 
 app.post("/users", async (req, res) => {
-  const user = req.body;
-  const result = await usersCollections.insertOne(user);
-  res.send(result);
+  const email = req.body.email;
+  const query = { email: email };
+  const existedUser = await usersCollections.findOne(query);
+  if (existedUser) {
+    res.json({ message: "User already exists!" , success: true});
+  } else {
+    const user = req.body;
+    const result = await usersCollections.insertOne(user);
+    res.json({ message: "User registered successfully!", result });
+  }
 });
 
 // assignment api method
