@@ -1,9 +1,20 @@
 import { Link } from "react-router-dom";
 import logo from "../../../public/favicon.png";
 import useAuth from "../../Hooks/useAuth";
+import { useEffect, useState } from "react";
 
 const Footer = () => {
   const { user } = useAuth();
+  const [dbUser, setDbUser] = useState(null);
+
+  useEffect(() => {
+    const getDbUser = async () => {
+      const res = await fetch(`http://localhost:5000/users/${user?.email}`);
+      const data = await res.json();
+      setDbUser(data);
+    };
+    getDbUser();
+  }, [user]);
 
   const navItems = (
     <>
@@ -13,33 +24,41 @@ const Footer = () => {
 
       <Link
         className="link link-hover hover:text-active-color"
-        to={"/assignments"}
+        to={"/contests"}
       >
-        Assignments
+        Contests
       </Link>
 
-      {user && (
+      {user && dbUser?.role !== "Admin" && (
         <Link
           className="link link-hover hover:text-active-color"
-          to={"/myAssignments"}
+          to={"/participating"}
         >
-          My Assignments
+          Participating
         </Link>
       )}
-      {user && (
+      {user && dbUser?.role !== "Admin" && (
         <Link
           className="link link-hover hover:text-active-color"
-          to={"/addAssignment"}
+          to={"/submittedContests"}
         >
-          Add Assignment
+          Submitted Contests
         </Link>
       )}
-      {user && (
+      {user && dbUser?.role === "Admin" && (
         <Link
           className="link link-hover hover:text-active-color"
-          to={"/submittedAssignments"}
+          to={"/addContest"}
         >
-          Submitted Assignment
+          Add Contests
+        </Link>
+      )}
+      {user && dbUser?.role === "Admin" && (
+        <Link
+          className="link link-hover hover:text-active-color"
+          to={"/allSubmittedContests"}
+        >
+          Submitted Contests
         </Link>
       )}
     </>
@@ -61,8 +80,8 @@ const Footer = () => {
         <div className="w-full flex justify-between max-w-screen-lg px-4 xl:px-0 xl:mx-auto pt-64 border-b border-[#FFFFFF19] pb-10">
           <div className="flex justify-center items-center gap-2">
             <img className="w-10" src={logo} alt="Logo" />
-            <span className="text-xl font-bold text-secondary-color">
-              eduCare
+            <span className="text-xl font-bold text-active-color">
+              Coding Judge
             </span>
           </div>
           <nav>
@@ -103,14 +122,17 @@ const Footer = () => {
             </div>
           </nav>
         </div>
-        <nav className="flex justify-center items-center flex-wrap gap-4 text-white px-4">
+        <nav className="flex justify-center items-center flex-wrap gap-4 text-white px-4 text-base">
           {navItems}
         </nav>
 
         <aside className="bg-secondary-color w-full h-20">
           <p className="text-white">
             Copyright © 2023 - All right reserved by{" "}
-            <span className="text-active-color font-semibold">eduCare</span> Ltd
+            <span className="text-active-color font-semibold">
+              Coding Judge
+            </span>{" "}
+            Ltd
           </p>
         </aside>
       </footer>

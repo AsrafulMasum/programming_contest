@@ -92,7 +92,7 @@ app.get("/users", async (req, res) => {
   res.send(result);
 });
 
-app.get("/users/:email", verifyCookie, async (req, res) => {
+app.get("/users/:email", async (req, res) => {
   const userEmail = req.params.email;
   const query = { email: userEmail };
   const result = await usersCollections.findOne(query);

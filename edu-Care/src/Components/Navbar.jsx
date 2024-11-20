@@ -1,18 +1,27 @@
 import { Link, NavLink } from "react-router-dom";
-import useData from "../Hooks/useData";
 import useAuth from "../Hooks/useAuth";
 import { toast } from "react-toastify";
-import { BsSun } from "react-icons/bs";
-import { CiDark } from "react-icons/ci";
 import defaultUser from "./../../public/user.png";
 import logo from "./../../public/favicon.png";
 import "./navbar.css";
 import Container from "./../Layout/Container";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
+  const [dbUser, setDbUser] = useState(null);
 
-  const { dark, handleTheme } = useData();
+  useEffect(() => {
+    const getDbUser = async () => {
+      const res = await fetch(`http://localhost:5000/users/${user?.email}`);
+      const data = await res.json();
+      setDbUser(data);
+    };
+    if (user) {
+      getDbUser();
+    }
+  }, [user]);
 
   const handleLogout = () => {
     logOut()
@@ -30,27 +39,33 @@ const Navbar = () => {
         <NavLink to={"/"}>Home</NavLink>
       </li>
       <li>
-        <NavLink to={"/assignments"}>Assignments</NavLink>
+        <NavLink to={"/contests"}>Contests</NavLink>
       </li>
-      {user && (
+      {user && dbUser?.role !== "Admin" && (
         <li>
-          <NavLink to={"/myAssignments"}>My Assignments</NavLink>
+          <NavLink to={"/participating"}>Participating</NavLink>
         </li>
       )}
-      {user && (
+      {user && dbUser?.role !== "Admin" && (
         <li>
-          <NavLink to={"/addAssignment"}>Add Assignment</NavLink>
+          <NavLink to={"/submittedContests"}>Submitted Contests</NavLink>
         </li>
       )}
-      {user && (
+      {user && dbUser?.role === "Admin" && (
         <li>
-          <NavLink to={"/submittedAssignments"}>Submitted Assignment</NavLink>
+          <NavLink to={"/addContest"}>Add Contests</NavLink>
+        </li>
+      )}
+      {user && dbUser?.role === "Admin" && (
+        <li>
+          <NavLink to={"/allSubmittedContests"}>Submitted Contests</NavLink>
         </li>
       )}
     </>
   );
+
   return (
-    <div className="z-50 sticky top-0 bg-primary-color bg-opacity-95">
+    <div className="z-50 sticky top-0 bg-secondary-color bg-opacity-95">
       <Container>
         <div className="w-full navbar px-0">
           <div className="flex-none lg:hidden">
@@ -76,8 +91,8 @@ const Navbar = () => {
           </div>
           <div className="flex-1 flex items-center gap-2">
             <img className="w-10" src={logo} alt="Logo" />
-            <span className="text-xl font-bold text-secondary-color">
-              eduCare
+            <span className="text-xl font-bold text-active-color">
+              Coding Judge
             </span>
           </div>
           <div>
@@ -109,8 +124,13 @@ const Navbar = () => {
                       tabIndex={0}
                       className="mt-2 z-50 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
                     >
-                      <li>
-                        <button>Dashboard</button>
+                      <li className="text-base font-medium">
+                        <p>
+                          {dbUser?.name}
+                          <span className="text-sm font-normal">
+                            ({dbUser?.role})
+                          </span>
+                        </p>
                       </li>
                       <li>
                         <button className="mt-1" onClick={handleLogout}>
@@ -133,16 +153,6 @@ const Navbar = () => {
                 </div>
               )}
             </div>
-          </div>
-          <div
-            onClick={handleTheme}
-            className="inline-block ml-4 cursor-pointer"
-          >
-            {dark ? (
-              <BsSun className="text-xl text-active-color"></BsSun>
-            ) : (
-              <CiDark className="text-xl text-secondary-color"></CiDark>
-            )}
           </div>
         </div>
       </Container>

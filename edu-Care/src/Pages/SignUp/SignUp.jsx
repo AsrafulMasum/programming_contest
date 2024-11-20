@@ -75,7 +75,8 @@ const SignUp = () => {
               })
                 .then((res) => res.json())
                 .then((data) => {
-                  if (data?.insertedId || data?.success) {
+                  console.log(data)
+                  if (data?.result?.insertedId || data?.success) {
                     toast.success("Sign Up Successful.", { id: toastId });
                     updateUser(name, photoURL)
                       .then(() => {
