@@ -75,7 +75,7 @@ const SignUp = () => {
               })
                 .then((res) => res.json())
                 .then((data) => {
-                  console.log(data)
+                  console.log(data);
                   if (data?.result?.insertedId || data?.success) {
                     toast.success("Sign Up Successful.", { id: toastId });
                     updateUser(name, photoURL)
@@ -102,117 +102,129 @@ const SignUp = () => {
   };
 
   return (
-    <div className="w-full max-w-sm p-6 m-auto mx-auto rounded border border-[#ABABAB] my-10">
-      <div>
-        <h2 className="text-lg font-bold text-white">Create An Account</h2>
-      </div>
+    <div
+      className="-mt-[68px] min-h-screen pt-24 px-4"
+      style={{
+        background: ` url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero-shape-3.png")`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundColor: "rgba(39, 18, 123, 0.3)",
+        backgroundBlendMode: "overlay",
+      }}
+    >
+      <div className="w-full max-w-sm p-6 m-auto mx-auto rounded border border-[#ABABAB]">
+        <div>
+          <h2 className="text-lg font-bold text-white">Create An Account</h2>
+        </div>
 
-      <form onSubmit={handleSignUp} className="mt-6">
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          placeholder="Name"
-          required
-          className="block w-full text-sm placeholder:text-white text-white py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
-        />
-
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Email"
-          required
-          className="block w-full text-sm placeholder:text-white text-white py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
-        />
-
-        <div className="mt-4 relative">
+        <form onSubmit={handleSignUp} className="mt-6">
           <input
-            type={show ? "text" : "password"}
-            name="password"
-            value={formData.password}
+            type="text"
+            name="name"
+            value={formData.name}
             onChange={handleChange}
-            placeholder="Password"
+            placeholder="Name"
             required
             className="block w-full text-sm placeholder:text-white text-white py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
           />
-          <div
-            className="absolute right-2 top-3 inline-block cursor-pointer"
-            onClick={() => setShow(!show)}
-          >
-            {show ? <BsEyeSlash></BsEyeSlash> : <BsEye></BsEye>}
-          </div>
-        </div>
 
-        <div className="mt-4 relative">
           <input
-            type={show1 ? "text" : "password"}
-            name="confirmPassword"
-            value={formData.confirmPassword}
+            type="email"
+            name="email"
+            value={formData.email}
             onChange={handleChange}
-            placeholder="Confirm Password"
+            placeholder="Email"
             required
             className="block w-full text-sm placeholder:text-white text-white py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
           />
-          <div
-            className="absolute right-2 top-3 inline-block cursor-pointer"
-            onClick={() => setShow1(!show1)}
-          >
-            {show1 ? <BsEyeSlash></BsEyeSlash> : <BsEye></BsEye>}
-          </div>
-        </div>
 
-        {/* Image form */}
-        <div className="mt-5 flex flex-col justify-center items-center gap-2 cursor-pointer">
-          <input
-            className="w-full px-4 bg-transparent text-white outline-none placeholder:text-white"
-            id="image"
-            type="file"
-            name="profileImage"
-            accept="image/*"
-            style={{ display: "none" }}
-            required
-            onChange={handleChange}
-          />
-          <div className="flex flex-col justify-center items-center gap-2 cursor-pointer text-white text-sm">
-            <label
-              htmlFor="image"
-              className="flex flex-col justify-center items-center gap-2 cursor-pointer text-white text-sm"
-            >
-              <img className="w-6" src={addImage} alt="add profile photo" />
-              <p>Upload Your Photo</p>
-            </label>
-          </div>
-
-          {formData.profileImage && (
-            <img
-              className=""
-              src={URL.createObjectURL(formData.profileImage)}
-              alt="profile photo"
-              style={{ maxWidth: "80px" }}
+          <div className="mt-4 relative">
+            <input
+              type={show ? "text" : "password"}
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Password"
+              required
+              className="block w-full text-sm placeholder:text-white text-white py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
             />
-          )}
-        </div>
+            <div
+              className="absolute right-2 top-3 inline-block cursor-pointer"
+              onClick={() => setShow(!show)}
+            >
+              {show ? <BsEyeSlash></BsEyeSlash> : <BsEye></BsEye>}
+            </div>
+          </div>
 
-        <div className="mt-6">
-          <button className="w-full px-6 py-2.5 font-medium tracking-wide rounded-sm bg-active-color text-white">
-            Sign Up
-          </button>
-        </div>
-      </form>
+          <div className="mt-4 relative">
+            <input
+              type={show1 ? "text" : "password"}
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              placeholder="Confirm Password"
+              required
+              className="block w-full text-sm placeholder:text-white text-white py-2 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
+            />
+            <div
+              className="absolute right-2 top-3 inline-block cursor-pointer"
+              onClick={() => setShow1(!show1)}
+            >
+              {show1 ? <BsEyeSlash></BsEyeSlash> : <BsEye></BsEye>}
+            </div>
+          </div>
 
-      <p className="mt-8 font-light text-center text-gray-300">
-        {" "}
-        Already have an account?{" "}
-        <Link
-          to={"/logIn"}
-          className="font-medium text-active-color hover:underline"
-        >
-          Sign In
-        </Link>
-      </p>
+          {/* Image form */}
+          <div className="mt-5 flex flex-col justify-center items-center gap-2 cursor-pointer">
+            <input
+              className="w-full px-4 bg-transparent text-white outline-none placeholder:text-white"
+              id="image"
+              type="file"
+              name="profileImage"
+              accept="image/*"
+              style={{ display: "none" }}
+              required
+              onChange={handleChange}
+            />
+            <div className="flex flex-col justify-center items-center gap-2 cursor-pointer text-white text-sm">
+              <label
+                htmlFor="image"
+                className="flex flex-col justify-center items-center gap-2 cursor-pointer text-white text-sm"
+              >
+                <img className="w-6" src={addImage} alt="add profile photo" />
+                <p>Upload Your Photo</p>
+              </label>
+            </div>
+
+            {formData.profileImage && (
+              <img
+                className=""
+                src={URL.createObjectURL(formData.profileImage)}
+                alt="profile photo"
+                style={{ maxWidth: "80px" }}
+              />
+            )}
+          </div>
+
+          <div className="mt-6">
+            <button className="w-full px-6 py-2.5 font-medium tracking-wide rounded-sm bg-active-color text-white">
+              Sign Up
+            </button>
+          </div>
+        </form>
+
+        <p className="mt-8 font-light text-center text-gray-300">
+          {" "}
+          Already have an account?{" "}
+          <Link
+            to={"/logIn"}
+            className="font-medium text-active-color hover:underline"
+          >
+            Sign In
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };

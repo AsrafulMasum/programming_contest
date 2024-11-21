@@ -53,7 +53,7 @@ const Navbar = () => {
       )}
       {user && dbUser?.role === "Admin" && (
         <li>
-          <NavLink to={"/addContest"}>Add Contests</NavLink>
+          <NavLink to={"/createContest"}>Create Contest</NavLink>
         </li>
       )}
       {user && dbUser?.role === "Admin" && (

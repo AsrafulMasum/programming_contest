@@ -5,12 +5,14 @@ import Home from "../Pages/Home/Home";
 import Assignments from "../Pages/Assignments/Assignments";
 import LogIn from "../Pages/LogIn/LogIn";
 import SignUp from "../Pages/SignUp/SignUp";
-import AddAssignment from "../Pages/AddAssignment/AddAssignment";
 import PrivateRoutes from "./PrivateRoutes";
 import AssignmentDetails from "../Pages/Assignments/AssignmentDetails";
 import UpdateAssignment from "../Pages/Assignments/UpdateAssignment";
 import SubmittedAssignments from "../Pages/SubmittedAssignments/SubmittedAssignments";
 import MyAssignments from "../Pages/MyAssignments/MyAssignments";
+import CreateContest from "../Pages/CreateContest/CreateContest";
+import AdminRoutes from "./AdminRoutes";
+import CreateQuestion from "../Pages/CreateQuestion/CreateQuestion";
 
 const Routes = createBrowserRouter([
   {
@@ -24,14 +26,22 @@ const Routes = createBrowserRouter([
       },
       {
         path: "assignments",
-        element: <Assignments></Assignments>,
+        element: <Assignments />,
       },
       {
-        path: "addAssignment",
+        path: "createContest",
         element: (
-          <PrivateRoutes>
-            <AddAssignment></AddAssignment>
-          </PrivateRoutes>
+          <AdminRoutes>
+            <CreateContest />
+          </AdminRoutes>
+        ),
+      },
+      {
+        path: "createQuestion",
+        element: (
+          <AdminRoutes>
+            <CreateQuestion />
+          </AdminRoutes>
         ),
       },
       {

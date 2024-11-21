@@ -56,7 +56,17 @@ const LogIn = () => {
   };
 
   return (
-    <div>
+    <div
+    className="-mt-[68px] min-h-screen pt-28 px-4"
+    style={{
+      background: ` url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero-shape-3.png")`,
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundColor: "rgba(39, 18, 123, 0.3)",
+      backgroundBlendMode: "overlay",
+    }}
+    >
       <div className="w-full max-w-sm p-6 m-auto mx-auto rounded border border-[#ABABAB] my-10">
         <div>
           <h2 className="text-lg font-bold text-white">Log In</h2>

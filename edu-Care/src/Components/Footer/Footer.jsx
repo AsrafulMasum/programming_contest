@@ -48,9 +48,9 @@ const Footer = () => {
       {user && dbUser?.role === "Admin" && (
         <Link
           className="link link-hover hover:text-active-color"
-          to={"/addContest"}
+          to={"/createContest"}
         >
-          Add Contests
+          Create Contest
         </Link>
       )}
       {user && dbUser?.role === "Admin" && (
@@ -122,7 +122,7 @@ const Footer = () => {
             </div>
           </nav>
         </div>
-        <nav className="flex justify-center items-center flex-wrap gap-4 text-white px-4 text-base">
+        <nav className="flex justify-center items-center flex-wrap gap-5 text-white px-4 text-base">
           {navItems}
         </nav>
 

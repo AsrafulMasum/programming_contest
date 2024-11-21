@@ -56,7 +56,7 @@ dbConnect();
 
 const database = client.db("eduCareDB");
 const usersCollections = database.collection("usersDB");
-const assignmentsCollections = database.collection("assignmentsDB");
+const contestsCollections = database.collection("contestsDB");
 const submittedAssignmentCollections = database.collection(
   "submittedAssignmentDB"
 );
@@ -112,21 +112,22 @@ app.post("/users", async (req, res) => {
   }
 });
 
-// assignment api method
-app.get("/assignments", async (req, res) => {
-  const page = parseInt(req.query.page);
-  const size = parseInt(req.query.size);
-  const filter = req.query.filter;
+// contests api method
+app.get("/contests", async (req, res) => {
+  // const page = parseInt(req.query.page);
+  // const size = parseInt(req.query.size);
+  // const filter = req.query.filter;
 
-  let query = {};
-  if (filter && filter !== "All") {
-    query = { difficulty: filter };
-  }
-  const result = await assignmentsCollections
-    .find(query)
-    .skip(page * size)
-    .limit(size)
-    .toArray();
+  // let query = {};
+  // if (filter && filter !== "All") {
+  //   query = { difficulty: filter };
+  // }
+  // const result = await assignmentsCollections
+  //   .find(query)
+  //   .skip(page * size)
+  //   .limit(size)
+  //   .toArray();
+  const result = await contestsCollections.find().toArray()
   res.send(result);
 });
 
@@ -141,47 +142,47 @@ app.get("/assignments", async (req, res) => {
 //   res.send({count});
 // });
 
-app.post("/assignments", verifyCookie, async (req, res) => {
-  const assignmentInfo = req.body;
-  const result = await assignmentsCollections.insertOne(assignmentInfo);
+app.post("/contests", verifyCookie, async (req, res) => {
+  const contestInfo = req.body;
+  const result = await contestsCollections.insertOne(contestInfo);
   res.send(result);
 });
 
-app.get("/assignments/:id", verifyCookie, async (req, res) => {
+app.get("/contests/:id", verifyCookie, async (req, res) => {
   const id = req.params.id;
   const query = { _id: new ObjectId(id) };
-  const result = await assignmentsCollections.findOne(query);
+  const result = await contestsCollections.findOne(query);
   res.send(result);
 });
 
-app.put("/assignments/:id", verifyCookie, async (req, res) => {
-  const id = req.params.id;
-  const assignment = req.body;
-  const filter = { _id: new ObjectId(id) };
-  const options = { upsert: true };
-  const updatedAssignment = {
-    $set: {
-      title: assignment.title,
-      difficulty: assignment.difficulty,
-      marks: assignment.marks,
-      dueDate: assignment.dueDate,
-      photoURL: assignment.photoURL,
-      description: assignment.description,
-      endDate: assignment.endDate,
-    },
-  };
-  const result = await assignmentsCollections.updateOne(
-    filter,
-    updatedAssignment,
-    options
-  );
-  res.send(result);
-});
+// app.put("/assignments/:id", verifyCookie, async (req, res) => {
+//   const id = req.params.id;
+//   const assignment = req.body;
+//   const filter = { _id: new ObjectId(id) };
+//   const options = { upsert: true };
+//   const updatedAssignment = {
+//     $set: {
+//       title: assignment.title,
+//       difficulty: assignment.difficulty,
+//       marks: assignment.marks,
+//       dueDate: assignment.dueDate,
+//       photoURL: assignment.photoURL,
+//       description: assignment.description,
+//       endDate: assignment.endDate,
+//     },
+//   };
+//   const result = await contestsCollections.updateOne(
+//     filter,
+//     updatedAssignment,
+//     options
+//   );
+//   res.send(result);
+// });
 
-app.delete("/assignments/:id", verifyCookie, async (req, res) => {
+app.delete("/contests/:id", verifyCookie, async (req, res) => {
   const id = req.params.id;
   const query = { _id: new ObjectId(id) };
-  const result = await assignmentsCollections.deleteOne(query);
+  const result = await contestsCollections.deleteOne(query);
   res.send(result);
 });
 
