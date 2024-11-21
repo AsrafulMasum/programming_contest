@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../Layout/MainLayout";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import Home from "../Pages/Home/Home";
-import Assignments from "../Pages/Assignments/Assignments";
 import LogIn from "../Pages/LogIn/LogIn";
 import SignUp from "../Pages/SignUp/SignUp";
 import PrivateRoutes from "./PrivateRoutes";
@@ -13,6 +12,7 @@ import MyAssignments from "../Pages/MyAssignments/MyAssignments";
 import CreateContest from "../Pages/CreateContest/CreateContest";
 import AdminRoutes from "./AdminRoutes";
 import CreateQuestion from "../Pages/CreateQuestion/CreateQuestion";
+import Contests from "../Pages/Contests/Contests";
 
 const Routes = createBrowserRouter([
   {
@@ -25,8 +25,8 @@ const Routes = createBrowserRouter([
         element: <Home></Home>,
       },
       {
-        path: "assignments",
-        element: <Assignments />,
+        path: "contests",
+        element: <Contests />,
       },
       {
         path: "createContest",

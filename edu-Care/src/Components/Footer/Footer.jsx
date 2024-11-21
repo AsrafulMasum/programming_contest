@@ -29,7 +29,7 @@ const Footer = () => {
         Contests
       </Link>
 
-      {user && dbUser?.role !== "Admin" && (
+      {user && dbUser?.role === "User" && (
         <Link
           className="link link-hover hover:text-active-color"
           to={"/participating"}
@@ -37,7 +37,7 @@ const Footer = () => {
           Participating
         </Link>
       )}
-      {user && dbUser?.role !== "Admin" && (
+      {user && dbUser?.role === "User" && (
         <Link
           className="link link-hover hover:text-active-color"
           to={"/submittedContests"}

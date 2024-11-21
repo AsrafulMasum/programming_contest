@@ -16,14 +16,14 @@ const CreateContest = () => {
     const form = e.target;
     const title = form.title.value;
     const contestCode = form.contestCode.value;
-    const contestTime = form.contestTime.value;
+    const duration = form.duration.value;
     const numberOfQuestion = form.numberOfQuestion.value;
     const description = form.description.value;
 
     const contest = {
       title,
       contestCode,
-      contestTime,
+      duration,
       numberOfQuestion,
       description,
     };
@@ -73,8 +73,8 @@ const CreateContest = () => {
           <div>
             <input
               type="number"
-              name="contestTime"
-              placeholder="Time Limit (Minutes)"
+              name="duration"
+              placeholder="Duration (Minutes)"
               required
               className="block w-full text-sm placeholder:text-white text-white py-3 pl-1 mt-2 bg-transparent border-b border-[#ABABAB] focus:outline-none focus:bg-transparent"
             />
