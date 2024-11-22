@@ -5,7 +5,6 @@ import Home from "../Pages/Home/Home";
 import LogIn from "../Pages/LogIn/LogIn";
 import SignUp from "../Pages/SignUp/SignUp";
 import PrivateRoutes from "./PrivateRoutes";
-import AssignmentDetails from "../Pages/Assignments/AssignmentDetails";
 import UpdateAssignment from "../Pages/Assignments/UpdateAssignment";
 import SubmittedAssignments from "../Pages/SubmittedAssignments/SubmittedAssignments";
 import MyAssignments from "../Pages/MyAssignments/MyAssignments";
@@ -13,6 +12,7 @@ import CreateContest from "../Pages/CreateContest/CreateContest";
 import AdminRoutes from "./AdminRoutes";
 import CreateQuestion from "../Pages/CreateQuestion/CreateQuestion";
 import Contests from "../Pages/Contests/Contests";
+import ContestDetails from "../Pages/ContestDetails/ContestDetails";
 
 const Routes = createBrowserRouter([
   {
@@ -45,10 +45,10 @@ const Routes = createBrowserRouter([
         ),
       },
       {
-        path: "assignmentDetails/:id",
+        path: "contestDetails/:id",
         element: (
           <PrivateRoutes>
-            <AssignmentDetails></AssignmentDetails>
+            <ContestDetails />
           </PrivateRoutes>
         ),
       },
