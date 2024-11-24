@@ -29,14 +29,14 @@ const Footer = () => {
         Contests
       </Link>
 
-      {user && dbUser?.role === "User" && (
+      {/* {user && dbUser?.role === "User" && (
         <Link
           className="link link-hover hover:text-active-color"
           to={"/participating"}
         >
           Participating
         </Link>
-      )}
+      )} */}
       {user && dbUser?.role === "User" && (
         <Link
           className="link link-hover hover:text-active-color"

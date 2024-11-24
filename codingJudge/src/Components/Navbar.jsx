@@ -70,7 +70,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="z-50 sticky top-0 bg-secondary-color bg-opacity-95">
+    <div className="z-50 sticky top-0 bg-secondary-color">
       <Container>
         <div className="w-full navbar px-0">
           <div className="flex-none lg:hidden">
