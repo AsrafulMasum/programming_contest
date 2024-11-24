@@ -41,11 +41,11 @@ const Navbar = () => {
       <li>
         <NavLink to={"/contests"}>Contests</NavLink>
       </li>
-      {user && dbUser?.role === "User" && (
+      {/* {user && dbUser?.role === "User" && (
         <li>
           <NavLink to={"/participating"}>Participating</NavLink>
         </li>
-      )}
+      )} */}
       {user && dbUser?.role === "User" && (
         <li>
           <NavLink to={"/submittedContests"}>Submitted Contests</NavLink>
@@ -59,6 +59,11 @@ const Navbar = () => {
       {user && dbUser?.role === "Admin" && (
         <li>
           <NavLink to={"/allSubmittedContests"}>Submitted Contests</NavLink>
+        </li>
+      )}
+      {user && (
+        <li>
+          <NavLink to={"/leaderBoard"}>Leaderboard</NavLink>
         </li>
       )}
     </>

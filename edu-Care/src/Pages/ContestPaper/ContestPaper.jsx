@@ -113,6 +113,7 @@ function ContestPaper() {
     const submittedContest = {
       contestId: contest?._id,
       userId: dbUser?._id,
+      timeLeft,
       code,
     };
     console.log(submittedContest);
@@ -123,7 +124,7 @@ function ContestPaper() {
 
   return (
     <div
-      className="-mt-[68px] min-h-screen pt-36 px-4"
+      className="-mt-[68px] min-h-screen pt-36"
       style={{
         background:
           'url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero-shape-3.png")',
@@ -135,22 +136,23 @@ function ContestPaper() {
       }}
     >
       <Container>
+        <div className="flex justify-end fixed right-6 top-24 z-50 bg-active-color px-10 py-2 rounded">
+          <p className="text-3xl font-medium text-secondary-color flex gap-2">
+            <span>{timeLeft.hours}h</span> : <span>{timeLeft.minutes}m</span> :{" "}
+            <span>{timeLeft.seconds}s</span>
+          </p>
+        </div>
         {contest.questions.length > 0 ? (
           contest.questions.map((question, idx) => (
             <div key={idx} className="mb-10">
               <div className="mx-4 mb-5 space-y-5 flex justify-between items-center gap-16">
                 <div className="space-y-5 text-white font-medium">
                   <p>
-                    <span className="text-lg">Question {idx + 1}:</span>{" "}
+                    <span className="text-xl">Question {idx + 1} :</span>{" "}
                     {question || "No question text available."}
                   </p>
                   <p>Write your answer below:</p>
                 </div>
-                <p className="text-3xl font-medium text-active-color flex gap-2">
-                  <span>{timeLeft.hours}h</span>{" "}
-                  <span>{timeLeft.minutes}m</span>{" "}
-                  <span>{timeLeft.seconds}s</span>
-                </p>
               </div>
 
               <Editor
@@ -174,7 +176,7 @@ function ContestPaper() {
               isTimeUp
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-active-color hover:bg-primary-color hover:text-white duration-500"
-            } text-secondary-color text-xl py-2 rounded btn-wide`}
+            } text-secondary-color text-2xl py-2 rounded btn-wide`}
           >
             Submit Code
           </button>
