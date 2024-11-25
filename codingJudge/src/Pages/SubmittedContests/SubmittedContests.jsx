@@ -8,8 +8,6 @@ function SubmittedContests() {
   const { data: submittedContests } = useLoadSecureData(
     `/submittedContestsByUser/${user?.email}`
   );
-  
-  console.log(submittedContests);
 
   return (
     <div

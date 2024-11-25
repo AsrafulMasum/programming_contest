@@ -12,6 +12,7 @@ import Contests from "../Pages/Contests/Contests";
 import ContestDetails from "../Pages/ContestDetails/ContestDetails";
 import ContestPaper from "../Pages/ContestPaper/ContestPaper";
 import SubmittedContests from "../Pages/SubmittedContests/SubmittedContests";
+import SubmittedContestDetails from "../Pages/SubmittedContestDetails/SubmittedContestDetails";
 
 const Routes = createBrowserRouter([
   {
@@ -64,6 +65,14 @@ const Routes = createBrowserRouter([
         element: (
           <PrivateRoutes>
             <SubmittedContests />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "submittedContestDetails/:id",
+        element: (
+          <PrivateRoutes>
+            <SubmittedContestDetails />
           </PrivateRoutes>
         ),
       },
