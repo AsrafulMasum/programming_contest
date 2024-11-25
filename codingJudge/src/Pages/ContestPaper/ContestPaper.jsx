@@ -1,11 +1,15 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Container from "../../Layout/Container";
 import useLoadSecureData from "../../Hooks/useLoadSecureData";
 import { useEffect, useState } from "react";
 import { Editor } from "@monaco-editor/react";
 import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { toast } from "react-toastify";
 
 function ContestPaper() {
+  const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const [dbUser, setDbUser] = useState(null);
 
@@ -109,7 +113,7 @@ function ContestPaper() {
     );
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const submittedContest = {
       contestId: contest?._id,
       userId: dbUser?._id,
@@ -117,6 +121,12 @@ function ContestPaper() {
       code,
     };
     console.log(submittedContest);
+    const res = await axiosSecure.post("/submittedContests", submittedContest);
+    console.log(res?.data?.insertedId);
+    if (res?.data?.insertedId) {
+      toast.success("Submitted Successfully.");
+      navigate("/");
+    }
   };
 
   const isTimeUp =

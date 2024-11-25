@@ -57,8 +57,8 @@ dbConnect();
 const database = client.db("eduCareDB");
 const usersCollections = database.collection("usersDB");
 const contestsCollections = database.collection("contestsDB");
-const submittedAssignmentCollections = database.collection(
-  "submittedAssignmentDB"
+const submittedContestsCollections = database.collection(
+  "submittedContestsDB"
 );
 
 // jwt api method
@@ -204,9 +204,9 @@ app.get("/submittedAssignments/:email", verifyCookie, async (req, res) => {
   res.send(result);
 });
 
-app.post("/submittedAssignments", verifyCookie, async (req, res) => {
+app.post("/submittedContests", verifyCookie, async (req, res) => {
   const submittedData = req.body;
-  const result = await submittedAssignmentCollections.insertOne(submittedData);
+  const result = await submittedContestsCollections.insertOne(submittedData);
   res.send(result);
 });
 
