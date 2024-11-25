@@ -57,7 +57,7 @@ const LogIn = () => {
 
   return (
     <div
-    className="-mt-[68px] min-h-screen pt-28 px-4"
+    className="-mt-[68px] min-h-screen pt-20 xl:pt-28 px-4 pb-10"
     style={{
       background: ` url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero-shape-3.png")`,
       backgroundRepeat: "no-repeat",
