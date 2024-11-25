@@ -3,11 +3,54 @@ import useLoadSecureData from "../../Hooks/useLoadSecureData";
 import Container from "../../Layout/Container";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import useAuth from "../../Hooks/useAuth";
+import { useEffect, useState } from "react";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 function ContestDetails() {
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const { id } = useParams();
   const { data: contest } = useLoadSecureData(`/contests/${id}`);
+
+  const { user } = useAuth();
+  const [dbUser, setDbUser] = useState(null);
+
+  useEffect(() => {
+    const getDbUser = async () => {
+      const res = await fetch(`http://localhost:5000/users/${user?.email}`);
+      const data = await res.json();
+      setDbUser(data);
+    };
+    if (user) {
+      getDbUser();
+    }
+  }, [user]);
+
+  const handleDeleteContest = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#6440FA",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await axiosSecure.delete(`/contests/${id}`);
+        if (res?.data?.deletedCount) {
+          Swal.fire({
+            title: "Deleted!",
+            text: "Contest has been deleted.",
+            icon: "success",
+            confirmButtonColor: "#6440FA",
+          });
+          navigate("/contests");
+        }
+      }
+    });
+  };
 
   const handleModal = () => {
     Swal.fire({
@@ -68,14 +111,25 @@ function ContestDetails() {
             Description : {contest?.description}
           </p>
 
-          <div className="mt-10 flex justify-end">
-            <button
-              onClick={handleModal}
-              className="text-xl bg-active-color text-secondary-color px-10 py-2 rounded font-medium hover:scale-105 duration-500"
-            >
-              Take The Contest
-            </button>
-          </div>
+          {dbUser?.role === "Admin" ? (
+            <div className="mt-10 flex justify-end">
+              <button
+                onClick={handleDeleteContest}
+                className="text-xl bg-active-color text-secondary-color px-10 py-2 rounded font-medium hover:scale-105 duration-500"
+              >
+                Delete The Contest
+              </button>
+            </div>
+          ) : (
+            <div className="mt-10 flex justify-end">
+              <button
+                onClick={handleModal}
+                className="text-xl bg-active-color text-secondary-color px-10 py-2 rounded font-medium hover:scale-105 duration-500"
+              >
+                Take The Contest
+              </button>
+            </div>
+          )}
         </>
       </Container>
     </div>

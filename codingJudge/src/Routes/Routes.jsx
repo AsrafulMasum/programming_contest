@@ -11,6 +11,7 @@ import CreateQuestion from "../Pages/CreateQuestion/CreateQuestion";
 import Contests from "../Pages/Contests/Contests";
 import ContestDetails from "../Pages/ContestDetails/ContestDetails";
 import ContestPaper from "../Pages/ContestPaper/ContestPaper";
+import SubmittedContests from "../Pages/SubmittedContests/SubmittedContests";
 
 const Routes = createBrowserRouter([
   {
@@ -55,6 +56,14 @@ const Routes = createBrowserRouter([
         element: (
           <PrivateRoutes>
             <ContestPaper />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "submittedContests",
+        element: (
+          <PrivateRoutes>
+            <SubmittedContests />
           </PrivateRoutes>
         ),
       },

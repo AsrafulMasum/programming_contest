@@ -19,7 +19,7 @@ function Contests() {
       }}
     >
       <Container>
-        <div className="overflow-x-auto">
+        <div>
           <h2 className="text-2xl font-bold text-active-color border-b-2 inline-block pb-1 pr-2 border-active-color capitalize">
             Top skill tests
           </h2>

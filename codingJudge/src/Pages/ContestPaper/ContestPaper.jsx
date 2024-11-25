@@ -116,13 +116,15 @@ function ContestPaper() {
   const handleSubmit = async () => {
     const submittedContest = {
       contestId: contest?._id,
-      userId: dbUser?._id,
+      contestName: contest?.title,
+      userEmail: dbUser?.email,
       timeLeft,
       code,
+      status: "pending",
     };
-    console.log(submittedContest);
+
     const res = await axiosSecure.post("/submittedContests", submittedContest);
-    console.log(res?.data?.insertedId);
+
     if (res?.data?.insertedId) {
       toast.success("Submitted Successfully.");
       navigate("/");
