@@ -83,104 +83,226 @@ app.get("/", (req, res) => {
 
 // JWT routes
 app.post("/jwt", (req, res) => {
-  const user = req.body;
-  const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "1h",
-  });
-  res
-    .cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-    })
-    .send({ success: true });
+  try {
+    const user = req.body;
+    const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: "1h",
+    });
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
+      })
+      .send({ success: true });
+  } catch (error) {
+    res.status(500).send({ message: "Error generating JWT", error });
+  }
 });
 
 app.post("/logout", (req, res) => {
-  res.clearCookie("token", { maxAge: 0 }).send({ success: true });
+  try {
+    res.clearCookie("token", { maxAge: 0 }).send({ success: true });
+  } catch (error) {
+    res.status(500).send({ message: "Error during logout", error });
+  }
 });
 
 // Users routes
 app.get("/users", async (req, res) => {
-  const result = await usersCollections.find().toArray();
-  res.send(result);
+  try {
+    const result = await usersCollections.find().toArray();
+    res.send(result);
+  } catch (error) {
+    res.status(500).send({ message: "Error retrieving users", error });
+  }
 });
 
 app.get("/users/:email", async (req, res) => {
-  const userEmail = req.params.email;
-  const query = { email: userEmail };
-  const result = await usersCollections.findOne(query);
-  res.send(result);
+  try {
+    const userEmail = req.params.email;
+    const query = { email: userEmail };
+    const result = await usersCollections.findOne(query);
+    if (!result) {
+      return res.status(404).send({ message: "User not found" });
+    }
+    res.send(result);
+  } catch (error) {
+    res.status(500).send({ message: "Error retrieving user", error });
+  }
 });
 
 app.post("/users", async (req, res) => {
-  const email = req.body.email;
-  const query = { email: email };
-  const existedUser = await usersCollections.findOne(query);
-  if (existedUser) {
-    res.json({ message: "User already exists!", success: true });
-  } else {
-    const user = req.body;
-    const result = await usersCollections.insertOne(user);
-    res.json({ message: "User registered successfully!", result });
+  try {
+    const email = req.body.email;
+    const query = { email: email };
+    const existedUser = await usersCollections.findOne(query);
+    if (existedUser) {
+      res.json({ message: "User already exists!", success: true });
+    } else {
+      const user = req.body;
+      const result = await usersCollections.insertOne(user);
+      res.json({ message: "User registered successfully!", result });
+    }
+  } catch (error) {
+    res.status(500).send({ message: "Error registering user", error });
   }
 });
 
 // Contests routes
 app.get("/contests", async (req, res) => {
-  const result = await contestsCollections.find().toArray();
-  res.send(result);
+  try {
+    const result = await contestsCollections.find().toArray();
+    res.send(result);
+  } catch (error) {
+    res.status(500).send({ message: "Error retrieving contests", error });
+  }
 });
 
 app.get("/contests/:id", verifyCookie, validateObjectId, async (req, res) => {
-  const id = req.params.id;
-  const query = { _id: new ObjectId(id) };
-  const result = await contestsCollections.findOne(query);
-  res.send(result);
+  try {
+    const id = req.params.id;
+    const query = { _id: new ObjectId(id) };
+    const result = await contestsCollections.findOne(query);
+    if (!result) {
+      return res.status(404).send({ message: "Contest not found" });
+    }
+    res.send(result);
+  } catch (error) {
+    res.status(500).send({ message: "Error retrieving contest", error });
+  }
 });
 
 app.post("/contests", verifyCookie, async (req, res) => {
-  const contestInfo = req.body;
-  const result = await contestsCollections.insertOne(contestInfo);
-  res.send(result);
+  try {
+    const contestInfo = req.body;
+    const result = await contestsCollections.insertOne(contestInfo);
+    res.send(result);
+  } catch (error) {
+    res.status(500).send({ message: "Error creating contest", error });
+  }
 });
 
-app.delete("/contests/:id", verifyCookie, validateObjectId, async (req, res) => {
-  const id = req.params.id;
-  const query = { _id: new ObjectId(id) };
-  const result = await contestsCollections.deleteOne(query);
-  res.send(result);
-});
+app.delete(
+  "/contests/:id",
+  verifyCookie,
+  validateObjectId,
+  async (req, res) => {
+    try {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await contestsCollections.deleteOne(query);
+      if (result.deletedCount === 0) {
+        return res.status(404).send({ message: "Contest not found" });
+      }
+      res.send({ message: "Contest deleted successfully" });
+    } catch (error) {
+      res.status(500).send({ message: "Error deleting contest", error });
+    }
+  }
+);
 
 // Submitted Contests routes
 app.get("/submittedContests", async (req, res) => {
-  const result = await submittedContestsCollections.find().toArray();
-  res.send(result);
+  try {
+    const result = await submittedContestsCollections.find().toArray();
+    res.send(result);
+  } catch (error) {
+    res
+      .status(500)
+      .send({ message: "Error retrieving submitted contests", error });
+  }
 });
 
-
-app.get("/submittedContests/:id", verifyCookie, validateObjectId, async (req, res) => {
-  const id = req.params.id;
-  const query = { _id: new ObjectId(id) };
-  const result = await submittedContestsCollections.findOne(query);
-  res.send(result);
-});
+app.get(
+  "/submittedContests/:id",
+  verifyCookie,
+  validateObjectId,
+  async (req, res) => {
+    try {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await submittedContestsCollections.findOne(query);
+      if (!result) {
+        return res.status(404).send({ message: "Submitted contest not found" });
+      }
+      res.send(result);
+    } catch (error) {
+      res
+        .status(500)
+        .send({ message: "Error retrieving submitted contest", error });
+    }
+  }
+);
 
 app.get("/submittedContestsByUser/:email", verifyCookie, async (req, res) => {
-  const submittedBy = req.params.email;
-  if (req.user.email !== submittedBy) {
-    return res.status(403).send({ message: "Forbidden Access" });
+  try {
+    const submittedBy = req.params.email;
+    if (req.user.email !== submittedBy) {
+      return res.status(403).send({ message: "Forbidden Access" });
+    }
+    const query = { userEmail: submittedBy };
+    const result = await submittedContestsCollections.find(query).toArray();
+    res.send(result);
+  } catch (error) {
+    res
+      .status(500)
+      .send({ message: "Error retrieving user submissions", error });
   }
-  const query = { userEmail: submittedBy };
-  const result = await submittedContestsCollections.find(query).toArray();
-  res.send(result);
 });
 
 app.post("/submittedContests", verifyCookie, async (req, res) => {
-  const submittedData = req.body;
-  const result = await submittedContestsCollections.insertOne(submittedData);
-  res.send(result);
+  try {
+    const submittedData = req.body;
+    const result = await submittedContestsCollections.insertOne(submittedData);
+    res.send(result);
+  } catch (error) {
+    res.status(500).send({ message: "Error submitting contest", error });
+  }
 });
+
+app.put(
+  "/submittedContests/:id",
+  verifyCookie,
+  validateObjectId,
+  async (req, res) => {
+    try {
+      const id = req.params.id;
+      const { feedback, status } = req.body;
+
+      if (!Array.isArray(feedback) || !status) {
+        return res.status(400).send({
+          message:
+            "Invalid request. `feedback` must be an array, and `status` is required.",
+        });
+      }
+
+      const query = { _id: new ObjectId(id) };
+      const updateDoc = {
+        $set: { feedback, status },
+      };
+
+      const result = await submittedContestsCollections.updateOne(
+        query,
+        updateDoc
+      );
+
+      if (result.matchedCount === 0) {
+        return res.status(404).send({ message: "Submitted contest not found" });
+      }
+
+      res.send({
+        message: "Submitted contest updated successfully",
+        success: true,
+        result,
+      });
+    } catch (error) {
+      res
+        .status(500)
+        .send({ message: "Error updating submitted contest", error });
+    }
+  }
+);
 
 // Server setup
 app.listen(port, () => {

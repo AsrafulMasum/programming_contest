@@ -1,11 +1,15 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import useLoadSecureData from "../../Hooks/useLoadSecureData";
 import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import Container from "../../Layout/Container";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { toast } from "react-toastify";
 
 function SubmittedContestsDetails() {
+  const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
   const { id } = useParams();
   const { data: submittedContest } = useLoadSecureData(
     `/submittedContests/${id}`
@@ -16,19 +20,35 @@ function SubmittedContestsDetails() {
   );
 
   // State to track feedback
-  const [feedback, setFeedback] = useState({});
+  const [feedback, setFeedback] = useState(
+    new Array(contest?.questions?.length || 0).fill("")
+  );
 
   // Handle feedback change
   const handleFeedbackChange = (questionIndex, value) => {
-    setFeedback((prev) => ({
-      ...prev,
-      [questionIndex]: value,
-    }));
+    const updatedFeedback = [...feedback];
+    updatedFeedback[questionIndex] = value;
+    setFeedback(updatedFeedback);
   };
 
   // Handle form submission
-  const handleSubmit = () => {
-    console.log("Submitting Feedback:", feedback);
+  const handleSubmit = async () => {
+    const updatedData = {
+      feedback,
+      status: "Checked",
+    };
+    try {
+      const res = await axiosSecure.put(
+        `/submittedContests/${id}`,
+        updatedData
+      );
+      if (res.data?.success) {
+        toast.success("Successfully Checked.");
+        navigate("/allSubmittedContests");
+      }
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+    }
   };
 
   // Check if all questions have feedback
