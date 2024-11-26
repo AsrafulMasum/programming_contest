@@ -1,13 +1,9 @@
 import { Link } from "react-router-dom";
-import useAuth from "../../Hooks/useAuth";
-import useLoadSecureData from "../../Hooks/useLoadSecureData";
 import Container from "../../Layout/Container";
+import useLoadSecureData from "../../Hooks/useLoadSecureData";
 
-function SubmittedContests() {
-  const { user } = useAuth();
-  const { data: submittedContests } = useLoadSecureData(
-    `/submittedContestsByUser/${user?.email}`
-  );
+function AllSubmittedContests() {
+  const { data: submittedContests } = useLoadSecureData("/submittedContests");
 
   return (
     <div
@@ -50,7 +46,7 @@ function SubmittedContests() {
                     <td className="capitalize">{submittedContest?.status}</td>
                     <th>
                       <Link
-                        to={`/submittedContestDetailsForUser/${submittedContest?._id}`}
+                        to={`/submittedContestDetails/${submittedContest?._id}`}
                         className="btn-xs hover:bg-white text-secondary-color uppercase rounded bg-active-color py-[2px]"
                       >
                         details
@@ -69,4 +65,4 @@ function SubmittedContests() {
   );
 }
 
-export default SubmittedContests;
+export default AllSubmittedContests;

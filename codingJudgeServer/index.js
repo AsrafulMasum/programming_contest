@@ -153,6 +153,12 @@ app.delete("/contests/:id", verifyCookie, validateObjectId, async (req, res) => 
 });
 
 // Submitted Contests routes
+app.get("/submittedContests", async (req, res) => {
+  const result = await submittedContestsCollections.find().toArray();
+  res.send(result);
+});
+
+
 app.get("/submittedContests/:id", verifyCookie, validateObjectId, async (req, res) => {
   const id = req.params.id;
   const query = { _id: new ObjectId(id) };

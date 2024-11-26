@@ -12,7 +12,9 @@ import Contests from "../Pages/Contests/Contests";
 import ContestDetails from "../Pages/ContestDetails/ContestDetails";
 import ContestPaper from "../Pages/ContestPaper/ContestPaper";
 import SubmittedContests from "../Pages/SubmittedContests/SubmittedContests";
-import SubmittedContestDetails from "../Pages/SubmittedContestDetails/SubmittedContestDetails";
+import AllSubmittedContests from "../Pages/AllSubmittedContests/AllSubmittedContests";
+import SubmittedContestDetailsForUser from "../Pages/SubmittedContestDetailsForUser/SubmittedContestDetailsForUser";
+import SubmittedContestsDetails from "../Pages/SubmittedContestsDetails/SubmittedContestsDetails";
 
 const Routes = createBrowserRouter([
   {
@@ -69,10 +71,26 @@ const Routes = createBrowserRouter([
         ),
       },
       {
+        path: "submittedContestDetailsForUser/:id",
+        element: (
+          <PrivateRoutes>
+            <SubmittedContestDetailsForUser />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "allSubmittedContests",
+        element: (
+          <AdminRoutes>
+            <AllSubmittedContests />
+          </AdminRoutes>
+        ),
+      },
+      {
         path: "submittedContestDetails/:id",
         element: (
           <PrivateRoutes>
-            <SubmittedContestDetails />
+            <SubmittedContestsDetails />
           </PrivateRoutes>
         ),
       },
