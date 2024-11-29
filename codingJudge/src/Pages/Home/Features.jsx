@@ -5,10 +5,10 @@ const Features = () => {
     <div id="flow" className="bg-white pt-20">
       <Container>
         <div className="text-center mb-10 space-y-4">
-          <p className="tracking-widest font-bold text-primary-color">
+          <p className="tracking-widest font-bold text-secondary-color">
             OUR FEATURES
           </p>
-          <h2 className="text-4xl text-secondary-color font-semibold capitalize">
+          <h2 className="text-4xl text-active-color font-semibold capitalize">
             What we provide
           </h2>
         </div>

@@ -20,10 +20,10 @@ const Faq = () => {
       <Container>
         <section>
           <div className="text-center mb-10 space-y-4">
-            <p className="tracking-widest font-bold text-primary-color">
+            <p className="tracking-widest font-bold text-secondary-color">
               OUR FAQ
             </p>
-            <h2 className="text-4xl text-secondary-color font-semibold">
+            <h2 className="text-4xl text-active-color font-semibold">
               Frequency And Questions
             </h2>
           </div>
@@ -39,7 +39,7 @@ const Faq = () => {
                   type="radio"
                   name="my-accordion"
                 />
-                <div className="collapse-title text-xl font-medium text-secondary-color">
+                <div className="collapse-title text-xl font-medium text-black">
                   What is the purpose of this website?
                 </div>
                 <div className="collapse-content">
@@ -60,12 +60,12 @@ const Faq = () => {
                   type="radio"
                   name="my-accordion"
                 />
-                <div className="collapse-title text-xl font-medium text-secondary-color">
+                <div className="collapse-title text-xl font-medium text-black">
                   How do I participate in a contest?
                 </div>
                 <div className="collapse-content">
                   <p className="text-gray-700">
-                    Simply log in, navigate to the "Contests" section, and
+                    Simply log in, navigate to the &#34;Contests&#34; section, and
                     register for any ongoing or upcoming contest.
                   </p>
                 </div>
@@ -80,7 +80,7 @@ const Faq = () => {
                   type="radio"
                   name="my-accordion"
                 />
-                <div className="collapse-title text-xl font-medium text-secondary-color">
+                <div className="collapse-title text-xl font-medium text-black">
                   What programming languages are supported?
                 </div>
                 <div className="collapse-content">
@@ -100,12 +100,12 @@ const Faq = () => {
                   type="radio"
                   name="my-accordion"
                 />
-                <div className="collapse-title text-xl font-medium text-secondary-color">
+                <div className="collapse-title text-xl font-medium text-black">
                   Can I participate in multiple contests?
                 </div>
                 <div className="collapse-content">
                   <p className="text-gray-700">
-                    Absolutely! You can join as many contests as you'd like.
+                    Absolutely! You can join as many contests as you&#39;d like.
                   </p>
                 </div>
               </div>
@@ -119,13 +119,13 @@ const Faq = () => {
                   type="radio"
                   name="my-accordion"
                 />
-                <div className="collapse-title text-xl font-medium text-secondary-color">
+                <div className="collapse-title text-xl font-medium text-black">
                   How do I submit my code?
                 </div>
                 <div className="collapse-content">
                   <p className="text-gray-700">
                     Use the built-in code editor to write your solution, then
-                    click "Submit" to run and evaluate your code.
+                    click &#34;Submit&#34; to run and evaluate your code.
                   </p>
                 </div>
               </div>
@@ -139,7 +139,7 @@ const Faq = () => {
                   type="radio"
                   name="my-accordion"
                 />
-                <div className="collapse-title text-xl font-medium text-secondary-color">
+                <div className="collapse-title text-xl font-medium text-black">
                   How is the leaderboard calculated?
                 </div>
                 <div className="collapse-content">

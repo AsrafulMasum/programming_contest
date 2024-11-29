@@ -35,14 +35,6 @@ const CreateContest = () => {
   return (
     <div
       className="-mt-[68px] min-h-screen pt-32 xl:pt-28 px-4 pb-10"
-      style={{
-        background: ` url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero-shape-3.png")`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundColor: "rgba(39, 18, 123, 0.3)",
-        backgroundBlendMode: "overlay",
-      }}
     >
       <div className="w-full max-w-4xl p-6 m-auto mx-auto rounded border border-[#ABABAB]">
         <div>
@@ -101,8 +93,8 @@ const CreateContest = () => {
           </div>
 
           <div className="mt-6">
-            <button className="w-full px-6 py-2.5 font-medium tracking-wide rounded-sm bg-active-color text-secondary-color flex items-center gap-1 justify-center">
-              Next <GrFormNextLink className="text-xl text-secondary-color" />
+            <button className="w-full px-6 py-2.5 font-medium tracking-wide rounded-sm bg-active-color text-black flex items-center gap-1 justify-center">
+              Next <GrFormNextLink className="text-xl" />
             </button>
           </div>
         </form>

@@ -150,7 +150,7 @@ const Navbar = () => {
                   <Link
                     to={"/logIn"}
                     className={
-                      "text-white btn normal-case btn-sm px-6 bg-active-color hover:bg-primary font-medium border-none"
+                      "text-white btn normal-case btn-sm px-6 hover:bg-active-color hover:text-black duration-500 font-medium border-none"
                     }
                   >
                     Log In

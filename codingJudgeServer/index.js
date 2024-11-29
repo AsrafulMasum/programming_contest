@@ -195,7 +195,7 @@ app.delete(
       if (result.deletedCount === 0) {
         return res.status(404).send({ message: "Contest not found" });
       }
-      res.send({ message: "Contest deleted successfully" });
+      res.send({ message: "Contest deleted successfully", success: true });
     } catch (error) {
       res.status(500).send({ message: "Error deleting contest", error });
     }

@@ -6,15 +6,6 @@ const ErrorPage = () => {
   return (
     <div
       className="min-h-screen"
-      style={{
-        background:
-          'url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero-shape-3.png")',
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundColor: "rgba(39, 18, 123, 0.3)",
-        backgroundBlendMode: "overlay",
-      }}
     >
       <div className="min-h-screen text-center flex flex-col justify-center items-center gap-4">
         <h2 className="text-4xl font-bold">

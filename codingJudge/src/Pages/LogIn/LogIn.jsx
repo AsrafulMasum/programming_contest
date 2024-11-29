@@ -58,14 +58,6 @@ const LogIn = () => {
   return (
     <div
     className="-mt-[68px] min-h-screen pt-20 xl:pt-28 px-4 pb-10"
-    style={{
-      background: ` url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero-shape-3.png")`,
-      backgroundRepeat: "no-repeat",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundColor: "rgba(39, 18, 123, 0.3)",
-      backgroundBlendMode: "overlay",
-    }}
     >
       <div className="w-full max-w-sm p-6 m-auto mx-auto rounded border border-[#ABABAB] my-10">
         <div>
@@ -101,7 +93,7 @@ const LogIn = () => {
 
           <div className="mt-6">
             <button
-              className="w-full px-6 py-2.5 font-medium tracking-wide rounded-sm bg-active-color text-white"
+              className="w-full px-6 py-2.5 font-medium tracking-wide rounded-sm bg-active-color text-black"
             >
               Sign In
             </button>

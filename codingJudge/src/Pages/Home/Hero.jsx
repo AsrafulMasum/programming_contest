@@ -10,11 +10,13 @@ const Hero = () => {
         style={{
           // backgroundImage:
           // 'url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero.png")',
-          background: `url(${hero_bg}), url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero-shape-3.png")`,
+          background: `url(${hero_bg})
+          
+          `,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          backgroundColor: "rgba(39, 18, 123, 0.3)",
+          backgroundColor: "rgba(0, 0, 0, 0.6)",
           backgroundBlendMode: "overlay",
         }}
       >
@@ -31,7 +33,7 @@ const Hero = () => {
               </span>{" "}
               Join the ultimate programming challenge today!
             </h2>
-            <a href="#flow" className="btn normal-case mt-10 text-lg btn-lg btn-wide bg-primary-color border-none text-white hover:bg-secondary-color">
+            <a href="#flow" className="btn normal-case mt-10 text-lg btn-lg btn-wide bg-secondary-color border-none text-white hover:bg-active-color hover:text-black duration-500">
               Read More
               <AiOutlinePlus className="text-xl"></AiOutlinePlus>
             </a>

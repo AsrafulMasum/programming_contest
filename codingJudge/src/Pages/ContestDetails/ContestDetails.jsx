@@ -39,7 +39,7 @@ function ContestDetails() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const res = await axiosSecure.delete(`/contests/${id}`);
-        if (res?.data?.deletedCount) {
+        if (res?.data?.success) {
           Swal.fire({
             title: "Deleted!",
             text: "Contest has been deleted.",
@@ -82,15 +82,6 @@ function ContestDetails() {
   return (
     <div
       className="-mt-[68px] min-h-screen pt-36 px-4"
-      style={{
-        background:
-          'url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero-shape-3.png")',
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundColor: "rgba(39, 18, 123, 0.3)",
-        backgroundBlendMode: "overlay",
-      }}
     >
       <Container>
         <>
@@ -115,7 +106,7 @@ function ContestDetails() {
             <div className="mt-10 flex justify-end">
               <button
                 onClick={handleDeleteContest}
-                className="text-xl bg-active-color text-secondary-color px-10 py-2 rounded font-medium hover:scale-105 duration-500"
+                className="text-xl bg-active-color text-black px-10 py-2 rounded font-medium hover:scale-105 duration-500"
               >
                 Delete The Contest
               </button>
@@ -124,7 +115,7 @@ function ContestDetails() {
             <div className="mt-10 flex justify-end">
               <button
                 onClick={handleModal}
-                className="text-xl bg-active-color text-secondary-color px-10 py-2 rounded font-medium hover:scale-105 duration-500"
+                className="text-xl bg-active-color text-black px-10 py-2 rounded font-medium hover:scale-105 duration-500"
               >
                 Take The Contest
               </button>

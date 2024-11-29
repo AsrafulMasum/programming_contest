@@ -137,15 +137,6 @@ function ContestPaper() {
   return (
     <div
       className="-mt-[68px] min-h-screen pt-36"
-      style={{
-        background:
-          'url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero-shape-3.png")',
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundColor: "rgba(39, 18, 123, 0.3)",
-        backgroundBlendMode: "overlay",
-      }}
     >
       <Container>
         <div className="flex justify-end fixed right-6 top-24 z-50 bg-active-color px-10 py-2 rounded">
@@ -180,15 +171,25 @@ function ContestPaper() {
         ) : (
           <p className="text-white">Loading questions...</p>
         )}
-        <div className="flex justify-end items-center w-full my-10 mr-5">
+        <div className="flex justify-end items-center w-full my-10 mr-5 gap-4">
+          <button
+            disabled={isTimeUp}
+            className={`${
+              isTimeUp
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-active-color hover:bg-secondary-color hover:text-white duration-500"
+            } text-black text-2xl py-2 rounded btn-wide`}
+          >
+            Emergency
+          </button>
           <button
             onClick={handleSubmit}
             disabled={isTimeUp}
             className={`${
               isTimeUp
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-active-color hover:bg-primary-color hover:text-white duration-500"
-            } text-secondary-color text-2xl py-2 rounded btn-wide`}
+                : "bg-active-color hover:bg-secondary-color hover:text-white duration-500"
+            } text-black text-2xl py-2 rounded btn-wide`}
           >
             Submit Code
           </button>
