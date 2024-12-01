@@ -200,7 +200,7 @@ const SignUp = () => {
           </div>
 
           <div className="mt-6">
-            <button className="w-full px-6 py-2.5 font-medium tracking-wide rounded-sm bg-active-color text-white">
+            <button className="w-full px-6 py-2.5 font-medium tracking-wide rounded-sm bg-active-color text-black">
               Sign Up
             </button>
           </div>

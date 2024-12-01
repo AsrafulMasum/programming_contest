@@ -50,6 +50,7 @@ process.on("SIGINT", async () => {
 const database = client.db("eduCareDB");
 const usersCollections = database.collection("usersDB");
 const contestsCollections = database.collection("contestsDB");
+const emergencyCollections = database.collection("emergencyDB");
 const submittedContestsCollections = database.collection("submittedContestsDB");
 
 // JWT Middleware
@@ -152,7 +153,9 @@ app.post("/users", async (req, res) => {
 // Contests routes
 app.get("/contests", async (req, res) => {
   try {
-    const result = await contestsCollections.find().toArray();
+    const result = await contestsCollections
+      .find({ visibility: { $exists: false } })
+      .toArray();
     res.send(result);
   } catch (error) {
     res.status(500).send({ message: "Error retrieving contests", error });
@@ -180,6 +183,31 @@ app.post("/contests", verifyCookie, async (req, res) => {
     res.send(result);
   } catch (error) {
     res.status(500).send({ message: "Error creating contest", error });
+  }
+});
+
+app.put("/contests/:id", verifyCookie, async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { visibility } = req.body;
+
+    const query = { _id: new ObjectId(id) };
+    const updateDoc = {
+      $set: { visibility },
+    };
+    const result = await contestsCollections.updateOne(query, updateDoc);
+
+    if (result.matchedCount === 0) {
+      return res.status(404).send({ message: "Contest not found" });
+    }
+
+    res.send({
+      message: "Contest updated successfully",
+      success: true,
+      result,
+    });
+  } catch (error) {
+    res.status(500).send({ message: "Error hiding contest", error });
   }
 });
 
@@ -303,6 +331,170 @@ app.put(
     }
   }
 );
+
+// Emergency routes
+app.get("/emergency", verifyCookie, async (req, res) => {
+  try {
+    const result = await emergencyCollections.find().toArray();
+    res.send(result);
+  } catch (error) {
+    res
+      .status(500)
+      .send({ message: "Error retrieving emergency data.", error });
+  }
+});
+
+app.get("/emergency/:email", verifyCookie, async (req, res) => {
+  try {
+    const submittedBy = req.params.email;
+    if (req.user.email !== submittedBy) {
+      return res.status(403).send({ message: "Forbidden Access" });
+    }
+    const query = { userEmail: submittedBy };
+    const result = await emergencyCollections.find(query).toArray();
+    res.send(result);
+  } catch (error) {
+    res
+      .status(500)
+      .send({ message: "Error retrieving emergency data.", error });
+  }
+});
+
+app.post("/emergency", verifyCookie, async (req, res) => {
+  try {
+    const emergencyData = req.body;
+    const result = await emergencyCollections.insertOne(emergencyData);
+    res.send({ result, success: true });
+  } catch (error) {
+    res.status(500).send({ message: "Error", error });
+  }
+});
+
+// Leaderboard routes
+app.get(
+  "/leaderboard/:id",
+  verifyCookie,
+  validateObjectId,
+  async (req, res) => {
+    try {
+      const contestId = req.params.id;
+
+      // Fetch the contest details to get the total duration in minutes
+      const contest = await contestsCollections.findOne({
+        _id: new ObjectId(contestId),
+      });
+      if (!contest) {
+        return res.status(404).send({ message: "Contest not found" });
+      }
+
+      // Ensure the duration is available and is a valid number, then convert it from minutes (string) to seconds
+      const totalDurationInMinutes = contest.duration;
+      if (!totalDurationInMinutes || isNaN(totalDurationInMinutes)) {
+        return res
+          .status(400)
+          .send({ message: "Contest duration is invalid or not set" });
+      }
+
+      const totalDurationInSeconds = parseInt(totalDurationInMinutes) * 60; // Convert minutes to seconds
+
+      // Query for submissions for the given contestId and status "Checked"
+      const submissions = await submittedContestsCollections
+        .find({ contestId, status: "Checked" })
+        .toArray();
+
+      if (submissions.length === 0) {
+        return res.status(404).send({ message: "No submissions found" });
+      }
+
+      // Fetch the user details (names) for all users who have submitted
+      const userEmails = submissions.map((submission) => submission.userEmail);
+      const users = await usersCollections
+        .find({ email: { $in: userEmails } })
+        .project({ email: 1, name: 1 })
+        .toArray();
+
+      // Create a map of emails to user names
+      const emailToNameMap = users.reduce((map, user) => {
+        map[user.email] = user.name;
+        return map;
+      }, {});
+
+      // Calculate scores and parse time for tiebreaker
+      const leaderboard = submissions.map((submission) => {
+        // Get user name from the email-to-name map
+        const userName = emailToNameMap[submission.userEmail];
+
+        // Calculate feedback scores
+        const feedbackScores = submission.feedback.map((f) => {
+          switch (f) {
+            case "Good":
+              return 5;
+            case "Needs Improvement":
+              return 2.5;
+            case "Incorrect":
+              return 0;
+            default:
+              return 0; // Default to 0 for unrecognized feedback
+          }
+        });
+
+        const totalScore = feedbackScores.reduce(
+          (acc, score) => acc + score,
+          0
+        );
+
+        // Calculate total time spent in seconds
+        const timeLeft = submission.timeLeft || {
+          hours: 0,
+          minutes: 0,
+          seconds: 0,
+        };
+        const timeLeftInSeconds =
+          timeLeft.hours * 3600 + timeLeft.minutes * 60 + timeLeft.seconds;
+        const timeSpent = totalDurationInSeconds - timeLeftInSeconds;
+
+        return {
+          userEmail: submission.userEmail,
+          userName: userName, // Add the user name
+          totalScore,
+          timeSpent,
+        };
+      });
+
+      // Sort the leaderboard by score descending, then by time ascending
+      leaderboard.sort((a, b) => {
+        if (b.totalScore === a.totalScore) {
+          return a.timeSpent - b.timeSpent; // Less time gets a higher rank
+        }
+        return b.totalScore - a.totalScore;
+      });
+
+      res.status(200).send(leaderboard);
+    } catch (error) {
+      console.error("Error generating leaderboard:", error);
+      res.status(500).send({ message: "Error generating leaderboard", error });
+    }
+  }
+);
+
+app.get("/latestContest", verifyCookie, async (req, res) => {
+  try {
+    const latestContest = await contestsCollections
+      .find()
+      .sort({ _id: -1 }) // Sort by _id in descending order to get the most recent
+      .limit(1) // Limit to one result
+      .project({ _id: 1 }) // Only include the _id field in the result
+      .toArray();
+
+    if (latestContest.length === 0) {
+      return res.status(404).send({ message: "No contests found" });
+    }
+
+    res.status(200).send(latestContest[0]); // Return the _id of the most recent contest
+  } catch (error) {
+    res.status(500).send({ message: "Error retrieving latest contest", error });
+  }
+});
 
 // Server setup
 app.listen(port, () => {

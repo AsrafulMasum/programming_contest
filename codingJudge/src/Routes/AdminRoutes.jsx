@@ -25,12 +25,12 @@ function AdminRoutes({ children }) {
     return <Loading></Loading>;
   }
 
-  if (dbUser && dbUser?.role === "Admin") {
-    return children;
-  }
-
   if (!user) {
     return <Navigate state={location?.pathname} to={"/login"}></Navigate>;
+  }
+
+  if (dbUser && dbUser?.role === "Admin") {
+    return children;
   }
 }
 

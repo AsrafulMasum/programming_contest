@@ -49,7 +49,7 @@ function Contests() {
                   </tr>
                 ))
               ) : (
-                <div>No Contests Available</div>
+                <div className="text-lg mt-4">No Contests Available</div>
               )}
             </tbody>
           </table>

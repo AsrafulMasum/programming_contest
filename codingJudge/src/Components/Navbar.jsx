@@ -1,12 +1,13 @@
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../Hooks/useAuth";
 import { toast } from "react-toastify";
-import defaultUser from "./../../public/user.png";
-import logo from "./../../public/favicon.png";
+import defaultUser from "/user.png";
+import logo from "/favicon.png";
 import "./navbar.css";
 import Container from "./../Layout/Container";
 import { useEffect } from "react";
 import { useState } from "react";
+import { ImNotification } from "react-icons/im";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -61,9 +62,16 @@ const Navbar = () => {
           <NavLink to={"/allSubmittedContests"}>Submitted Contests</NavLink>
         </li>
       )}
-      {user && (
+      {user && dbUser?.role === "User" && (
         <li>
-          <NavLink to={"/leaderBoard"}>Leaderboard</NavLink>
+          <NavLink to={"/leaderboard"}>Leaderboard</NavLink>
+        </li>
+      )}
+      {user && dbUser?.role === "Admin" && (
+        <li>
+          <NavLink to={"/notifications"}>
+            <ImNotification className="text-lg" />
+          </NavLink>
         </li>
       )}
     </>
@@ -102,7 +110,7 @@ const Navbar = () => {
           </div>
           <div>
             <div className="flex-none hidden lg:block">
-              <ul className="menu menu-horizontal">
+              <ul className="menu menu-horizontal items-center">
                 {/* Navbar menu content here */}
                 {navItems}
               </ul>

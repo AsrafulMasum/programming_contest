@@ -6,6 +6,7 @@ import { Editor } from "@monaco-editor/react";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 function ContestPaper() {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ function ContestPaper() {
   useEffect(() => {
     if (!contest?.duration) return;
 
-    const storedTime = localStorage.getItem(`targetDate_${id}`);
+    const storedTime = localStorage.getItem(`targetDate_${dbUser?._id}_${id}`);
     let newTargetDate;
 
     if (storedTime) {
@@ -60,12 +61,17 @@ function ContestPaper() {
       newTargetDate = new Date(
         new Date().getTime() + contest.duration * 60 * 1000
       );
-      localStorage.setItem(`targetDate_${id}`, newTargetDate.toISOString());
+      if (dbUser) {
+        localStorage.setItem(
+          `targetDate_${dbUser?._id}_${id}`,
+          newTargetDate.toISOString()
+        );
+      }
     }
 
     setTargetDate(newTargetDate);
     setCode(contest.questions.map(() => "// Start coding here..."));
-  }, [contest, id]);
+  }, [contest, dbUser, id]);
 
   // Update the timer every second, but only if timeLeft changes
   useEffect(() => {
@@ -92,12 +98,12 @@ function ContestPaper() {
         newTimeLeft.seconds <= 0
       ) {
         clearInterval(timer);
-        localStorage.removeItem(`targetDate_${id}`);
+        localStorage.removeItem(`targetDate_${dbUser?._id}_${id}`);
       }
     }, 1000);
 
     return () => clearInterval(timer); // Cleanup interval on unmount
-  }, [targetDate, id]);
+  }, [targetDate, dbUser, id]);
 
   const handleCodeChange = (value, idx) => {
     const updatedCode = [...code];
@@ -120,31 +126,64 @@ function ContestPaper() {
       userEmail: dbUser?.email,
       timeLeft,
       code,
-      status: "pending",
+      status: "Pending",
     };
 
     const res = await axiosSecure.post("/submittedContests", submittedContest);
 
     if (res?.data?.insertedId) {
       toast.success("Submitted Successfully.");
-      navigate("/");
+      navigate("/contests");
+      localStorage.removeItem(`targetDate_${dbUser?._id}_${id}`);
     }
+  };
+
+  const handleEmergency = async () => {
+    const emergencyData = {
+      contestId: contest?._id,
+      userEmail: dbUser?.email,
+      timeLeft,
+    };
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#2f4858",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Confirm!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await axiosSecure.post("/emergency", emergencyData);
+        if (res?.data?.success) {
+          Swal.fire({
+            title: "Notified!",
+            text: "Your data has been sent to admin.",
+            icon: "success",
+            confirmButtonColor: "#2f4858",
+          });
+          navigate("/contests");
+          localStorage.removeItem(`targetDate_${dbUser?._id}_${id}`);
+        }
+      }
+    });
   };
 
   const isTimeUp =
     timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0;
 
   return (
-    <div
-      className="-mt-[68px] min-h-screen pt-36"
-    >
+    <div className="-mt-[68px] min-h-screen pt-36">
       <Container>
-        <div className="flex justify-end fixed right-6 top-24 z-50 bg-active-color px-10 py-2 rounded">
-          <p className="text-3xl font-medium text-secondary-color flex gap-2">
-            <span>{timeLeft.hours}h</span> : <span>{timeLeft.minutes}m</span> :{" "}
-            <span>{timeLeft.seconds}s</span>
-          </p>
-        </div>
+        {contest && (
+          <div className="flex justify-end fixed right-6 top-24 z-50 bg-active-color px-10 py-2 rounded">
+            <p className="text-3xl font-medium text-secondary-color flex gap-2">
+              <span>{timeLeft.hours}h</span> : <span>{timeLeft.minutes}m</span>{" "}
+              : <span>{timeLeft.seconds}s</span>
+            </p>
+          </div>
+        )}
         {contest.questions.length > 0 ? (
           contest.questions.map((question, idx) => (
             <div key={idx} className="mb-10">
@@ -171,14 +210,19 @@ function ContestPaper() {
         ) : (
           <p className="text-white">Loading questions...</p>
         )}
+        <p className="italic">
+          If you face any issues then press the emergency button. Otherwise you
+          wont be able to participate the contest.
+        </p>
         <div className="flex justify-end items-center w-full my-10 mr-5 gap-4">
           <button
+            onClick={handleEmergency}
             disabled={isTimeUp}
             className={`${
               isTimeUp
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-active-color hover:bg-secondary-color hover:text-white duration-500"
-            } text-black text-2xl py-2 rounded btn-wide`}
+                ? "bg-gray-400 cursor-not-allowed text-black"
+                : "bg-red-600 duration-500 text-white"
+            } text-xl py-2 rounded btn-wide`}
           >
             Emergency
           </button>
@@ -189,7 +233,7 @@ function ContestPaper() {
               isTimeUp
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-active-color hover:bg-secondary-color hover:text-white duration-500"
-            } text-black text-2xl py-2 rounded btn-wide`}
+            } text-black text-xl py-2 rounded btn-wide`}
           >
             Submit Code
           </button>

@@ -25,7 +25,7 @@ function AllSubmittedContests() {
               </tr>
             </thead>
             <tbody>
-              {submittedContests ? (
+              {submittedContests?.length ? (
                 submittedContests?.map((submittedContest) => (
                   <tr key={submittedContest?._id} className="text-white">
                     <th>{submittedContest?.contestName}</th>
@@ -38,7 +38,7 @@ function AllSubmittedContests() {
                     <th>
                       <Link
                         to={`/submittedContestDetails/${submittedContest?._id}`}
-                        className="btn-xs hover:bg-white text-secondary-color uppercase rounded bg-active-color py-[2px]"
+                        className="btn-xs hover:bg-white text-black uppercase rounded bg-active-color py-[2px]"
                       >
                         details
                       </Link>
@@ -46,7 +46,7 @@ function AllSubmittedContests() {
                   </tr>
                 ))
               ) : (
-                <div>No Submitted Contests Available</div>
+                <div className="text-lg mt-4">No Submitted Contests Available</div>
               )}
             </tbody>
           </table>

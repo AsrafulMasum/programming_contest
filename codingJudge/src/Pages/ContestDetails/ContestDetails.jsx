@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import useAuth from "../../Hooks/useAuth";
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useLoadPublicData from "../../Hooks/useLoadPublicData";
 
 function ContestDetails() {
   const axiosSecure = useAxiosSecure();
@@ -15,6 +16,17 @@ function ContestDetails() {
 
   const { user } = useAuth();
   const [dbUser, setDbUser] = useState(null);
+  const { data: submittedContests } = useLoadSecureData(
+    `/submittedContestsByUser/${user?.email}`
+  );
+  const { data: emergencyData } = useLoadSecureData(
+    `/emergency/${user?.email}`
+  );
+  const { data } = useLoadPublicData(`/submittedContests`);
+
+  const isTaken = submittedContests?.some((item) => item.contestId === id);
+  const onEmergency = emergencyData?.some((item) => item.contestId === id);
+  const participated = data?.some((item) => item.contestId === id);
 
   useEffect(() => {
     const getDbUser = async () => {
@@ -33,56 +45,89 @@ function ContestDetails() {
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#6440FA",
+      confirmButtonColor: "#2f4858",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const res = await axiosSecure.delete(`/contests/${id}`);
-        if (res?.data?.success) {
-          Swal.fire({
-            title: "Deleted!",
-            text: "Contest has been deleted.",
-            icon: "success",
-            confirmButtonColor: "#6440FA",
-          });
-          navigate("/contests");
+        if (participated) {
+          const updatedData = {
+            visibility: "Hide",
+          };
+          const res = await axiosSecure.put(`/contests/${id}`, updatedData);
+          console.log(res?.data?.success);
+          if (res?.data?.success) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Contest has been deleted.",
+              icon: "success",
+              confirmButtonColor: "#2f4858",
+            });
+            navigate("/contests");
+          }
+        } else {
+          const res = await axiosSecure.delete(`/contests/${id}`);
+          if (res?.data?.success) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Contest has been deleted.",
+              icon: "success",
+              confirmButtonColor: "#2f4858",
+            });
+            navigate("/contests");
+          }
         }
       }
     });
   };
 
   const handleModal = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You want to take this contest!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#6440FA",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, take it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const { value: contestCode } = await Swal.fire({
-          title: "Inter contest code",
-          input: "text",
-          inputLabel: "Contest Code",
-          inputPlaceholder: "Enter The Contest Code",
-          confirmButtonColor: "#6440FA",
-        });
-        if (contestCode && contestCode === contest?.contestCode) {
-          navigate(`/contestPaper/${contest?._id}`);
-        } else {
-          toast.error("Enter valid code.");
+    if (isTaken) {
+      Swal.fire({
+        title: "Participated!",
+        text: "You have been participated.",
+        icon: "success",
+        confirmButtonColor: "#2f4858",
+      });
+      navigate("/contests");
+    } else if (onEmergency) {
+      Swal.fire({
+        title: "On Emergency!",
+        text: "You have faced issues on the contest.",
+        icon: "success",
+        confirmButtonColor: "#2f4858",
+      });
+      navigate("/contests");
+    } else {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You want to take this contest!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#2f4858",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, take it!",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          const { value: contestCode } = await Swal.fire({
+            title: "Inter contest code",
+            input: "text",
+            inputLabel: "Contest Code",
+            inputPlaceholder: "Enter The Contest Code",
+            confirmButtonColor: "#2f4858",
+          });
+          if (contestCode && contestCode === contest?.contestCode) {
+            navigate(`/contestPaper/${contest?._id}`);
+          } else {
+            toast.error("Enter valid code.");
+          }
         }
-      }
-    });
+      });
+    }
   };
 
   return (
-    <div
-      className="-mt-[68px] min-h-screen pt-36 px-4"
-    >
+    <div className="min-h-screen pt-24 px-4 pb-10">
       <Container>
         <>
           <h4 className="text-4xl font-semibold text-white">

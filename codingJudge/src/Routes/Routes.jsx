@@ -15,6 +15,7 @@ import SubmittedContests from "../Pages/SubmittedContests/SubmittedContests";
 import AllSubmittedContests from "../Pages/AllSubmittedContests/AllSubmittedContests";
 import SubmittedContestDetailsForUser from "../Pages/SubmittedContestDetailsForUser/SubmittedContestDetailsForUser";
 import SubmittedContestsDetails from "../Pages/SubmittedContestsDetails/SubmittedContestsDetails";
+import Leaderboard from "../Pages/Leaderboard/Leaderboard";
 
 const Routes = createBrowserRouter([
   {
@@ -89,8 +90,24 @@ const Routes = createBrowserRouter([
       {
         path: "submittedContestDetails/:id",
         element: (
-          <PrivateRoutes>
+          <AdminRoutes>
             <SubmittedContestsDetails />
+          </AdminRoutes>
+        ),
+      },
+      {
+        path: "leaderboard",
+        element: (
+          <PrivateRoutes>
+            <Leaderboard />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "leaderboard/:id",
+        element: (
+          <PrivateRoutes>
+            <Leaderboard />
           </PrivateRoutes>
         ),
       },

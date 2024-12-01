@@ -1,5 +1,5 @@
 import Container from "../../Layout/Container";
-import hero_bg from "../../../public/hero-bg.jpg";
+import hero_bg from "/hero-bg.jpg";
 import { AiOutlinePlus } from "react-icons/ai";
 
 const Hero = () => {
@@ -33,7 +33,7 @@ const Hero = () => {
               </span>{" "}
               Join the ultimate programming challenge today!
             </h2>
-            <a href="#flow" className="btn normal-case mt-10 text-lg btn-lg btn-wide bg-secondary-color border-none text-white hover:bg-active-color hover:text-black duration-500">
+            <a href="#flow" className="btn normal-case mt-10 text-lg btn-lg btn-wide bg-active-color border-none text-black hover:bg-secondary-color hover:text-white duration-500">
               Read More
               <AiOutlinePlus className="text-xl"></AiOutlinePlus>
             </a>

@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import useLoadSecureData from "../../Hooks/useLoadSecureData";
 import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -57,9 +57,7 @@ function SubmittedContestsDetails() {
     contest.questions.every((_, idx) => feedback[idx]);
 
   return (
-    <div
-      className="-mt-[68px] min-h-screen pt-28 px-4 pb-10"
-    >
+    <div className="-mt-[68px] min-h-screen pt-28 px-4 pb-10">
       <Container>
         {contest?.questions?.map((question, idx) => (
           <div key={idx} className="mb-10 text-white font-medium">
@@ -73,62 +71,75 @@ function SubmittedContestsDetails() {
             </SyntaxHighlighter>
 
             {/* Feedback Section */}
-            <div className="my-4">
-              <p className="text-lg mb-2">Feedback:</p>
-              <div className="flex items-center">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name={`feedback-${idx}`}
-                    value="Good"
-                    checked={feedback[idx] === "Good"}
-                    onChange={() => handleFeedbackChange(idx, "Good")}
-                  />
-                  <label className="mr-4">Good</label>
-                </div>
+            {submittedContest?.status === "Pending" && (
+              <div className="my-4">
+                <p className="text-lg mb-2">Feedback:</p>
+                <div className="flex items-center">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name={`feedback-${idx}`}
+                      value="Good"
+                      checked={feedback[idx] === "Good"}
+                      onChange={() => handleFeedbackChange(idx, "Good")}
+                    />
+                    <label className="mr-4">Good</label>
+                  </div>
 
-                <div className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name={`feedback-${idx}`}
-                    value="Needs Improvement"
-                    checked={feedback[idx] === "Needs Improvement"}
-                    onChange={() =>
-                      handleFeedbackChange(idx, "Needs Improvement")
-                    }
-                  />
-                  <label className="mr-4">Needs Improvement</label>
-                </div>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name={`feedback-${idx}`}
+                      value="Needs Improvement"
+                      checked={feedback[idx] === "Needs Improvement"}
+                      onChange={() =>
+                        handleFeedbackChange(idx, "Needs Improvement")
+                      }
+                    />
+                    <label className="mr-4">Needs Improvement</label>
+                  </div>
 
-                <div className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name={`feedback-${idx}`}
-                    value="Incorrect"
-                    checked={feedback[idx] === "Incorrect"}
-                    onChange={() => handleFeedbackChange(idx, "Incorrect")}
-                  />
-                  <label>Incorrect</label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name={`feedback-${idx}`}
+                      value="Incorrect"
+                      checked={feedback[idx] === "Incorrect"}
+                      onChange={() => handleFeedbackChange(idx, "Incorrect")}
+                    />
+                    <label>Incorrect</label>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         ))}
 
         {/* Submit Button */}
-        <div className="mt-10 text-center">
-          <button
-            onClick={handleSubmit}
-            disabled={!allFeedbackProvided}
-            className={`px-6 py-2 font-bold rounded ${
-              allFeedbackProvided
-                ? "bg-active-color text-secondary-color hover:scale-105 duration-500"
-                : "bg-gray-500 text-white cursor-not-allowed"
-            }`}
-          >
-            Submit Feedback
-          </button>
-        </div>
+        {submittedContest?.status === "Pending" ? (
+          <div className="mt-10 text-center">
+            <button
+              onClick={handleSubmit}
+              disabled={!allFeedbackProvided}
+              className={`px-6 py-2 font-bold rounded ${
+                allFeedbackProvided
+                  ? "bg-active-color text-black hover:scale-105 duration-500"
+                  : "bg-gray-500 text-white cursor-not-allowed"
+              }`}
+            >
+              Submit Feedback
+            </button>
+          </div>
+        ) : (
+          <div className="flex justify-end">
+            <Link
+              to={`/leaderboard/${submittedContest?.contestId}`}
+              className="bg-active-color text-black text-2xl py-2 rounded px-10"
+            >
+              Leaderboard
+            </Link>
+          </div>
+        )}
       </Container>
     </div>
   );

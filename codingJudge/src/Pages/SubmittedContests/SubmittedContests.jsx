@@ -29,7 +29,7 @@ function SubmittedContests() {
               </tr>
             </thead>
             <tbody>
-              {submittedContests ? (
+              {submittedContests?.length ? (
                 submittedContests?.map((submittedContest) => (
                   <tr key={submittedContest?._id} className="text-white">
                     <th>{submittedContest?.contestName}</th>
@@ -50,7 +50,7 @@ function SubmittedContests() {
                   </tr>
                 ))
               ) : (
-                <div>No Submitted Contests Available</div>
+                <div className="text-lg mt-4">No Submitted Contests Available</div>
               )}
             </tbody>
           </table>
