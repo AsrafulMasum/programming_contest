@@ -16,6 +16,7 @@ import AllSubmittedContests from "../Pages/AllSubmittedContests/AllSubmittedCont
 import SubmittedContestDetailsForUser from "../Pages/SubmittedContestDetailsForUser/SubmittedContestDetailsForUser";
 import SubmittedContestsDetails from "../Pages/SubmittedContestsDetails/SubmittedContestsDetails";
 import Leaderboard from "../Pages/Leaderboard/Leaderboard";
+import Emergency from "../Pages/Emergency/Emergency";
 
 const Routes = createBrowserRouter([
   {
@@ -92,6 +93,14 @@ const Routes = createBrowserRouter([
         element: (
           <AdminRoutes>
             <SubmittedContestsDetails />
+          </AdminRoutes>
+        ),
+      },
+      {
+        path: "notifications",
+        element: (
+          <AdminRoutes>
+            <Emergency />
           </AdminRoutes>
         ),
       },
