@@ -33,7 +33,7 @@ function Emergency() {
                 emergencies?.map((emergency) => (
                   <tr key={emergency?._id} className="text-white">
                     <th>{emergency?._id}</th> {/* Display Contest ID */}
-                    <td className="capitalize">{emergency?.userEmail}</td> {/* Display User Email */}
+                    <td>{emergency?.userEmail}</td> {/* Display User Email */}
                     <td>
                       {/* Format and display the time left */}
                       <span>{emergency?.timeLeft.hours}h</span> :{" "}

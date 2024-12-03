@@ -13,9 +13,6 @@ function SubmittedContestDetailsForUser() {
 
   // Fetch the contest details using the contest ID from the submitted contest data
   const { data: contest } = useLoadSecureData(`/contests/${submittedContest?.contestId}`);
-
-  console.log(submittedContest); // Debugging: Log the submitted contest data
-
   return (
     <div className="-mt-[68px] min-h-screen pt-28 px-4 pb-10">
       {/* Use the Container component for consistent layout */}
