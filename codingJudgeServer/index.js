@@ -11,7 +11,11 @@ const port = process.env.PORT || 5000;
 // Middleware
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://educare-fe496.web.app"],
+    origin: [
+      "http://localhost:5173",
+      "https://programming-contest-20813.web.app",
+      "https://codingjudge.netlify.app",
+    ],
     credentials: true,
   })
 );
@@ -38,13 +42,6 @@ const dbConnect = async () => {
   }
 };
 dbConnect();
-
-// Ensure graceful shutdown
-process.on("SIGINT", async () => {
-  await client.close();
-  console.log("DB Connection Closed");
-  process.exit(0);
-});
 
 // Database collections
 const database = client.db("eduCareDB");
@@ -155,6 +152,7 @@ app.get("/contests", async (req, res) => {
   try {
     const result = await contestsCollections
       .find({ visibility: { $exists: false } })
+      .sort({ _id: -1 })
       .toArray();
     res.send(result);
   } catch (error) {
@@ -233,7 +231,10 @@ app.delete(
 // Submitted Contests routes
 app.get("/submittedContests", async (req, res) => {
   try {
-    const result = await submittedContestsCollections.find().toArray();
+    const result = await submittedContestsCollections
+      .find()
+      .sort({ _id: -1 })
+      .toArray();
     res.send(result);
   } catch (error) {
     res
@@ -270,7 +271,10 @@ app.get("/submittedContestsByUser/:email", verifyCookie, async (req, res) => {
       return res.status(403).send({ message: "Forbidden Access" });
     }
     const query = { userEmail: submittedBy };
-    const result = await submittedContestsCollections.find(query).toArray();
+    const result = await submittedContestsCollections
+      .find(query)
+      .sort({ _id: -1 })
+      .toArray();
     res.send(result);
   } catch (error) {
     res
@@ -335,7 +339,10 @@ app.put(
 // Emergency routes
 app.get("/emergency", verifyCookie, async (req, res) => {
   try {
-    const result = await emergencyCollections.find().toArray();
+    const result = await emergencyCollections
+      .find()
+      .sort({ _id: -1 })
+      .toArray();
     res.send(result);
   } catch (error) {
     res
@@ -351,7 +358,10 @@ app.get("/emergency/:email", verifyCookie, async (req, res) => {
       return res.status(403).send({ message: "Forbidden Access" });
     }
     const query = { userEmail: submittedBy };
-    const result = await emergencyCollections.find(query).toArray();
+    const result = await emergencyCollections
+      .find(query)
+      .sort({ _id: -1 })
+      .toArray();
     res.send(result);
   } catch (error) {
     res
@@ -455,7 +465,7 @@ app.get(
 
         return {
           userEmail: submission.userEmail,
-          userName: userName, // Add the user name
+          userName: userName,
           totalScore,
           timeSpent,
         };

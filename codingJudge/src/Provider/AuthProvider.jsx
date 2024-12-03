@@ -60,7 +60,7 @@ const AuthProvider = ({ children }) => {
       const loggedInUser = { email: userEmail };
       if (currentUser) {
         axios
-          .post("http://localhost:5000/jwt", loggedInUser, {
+          .post("https://coding-judge-server.vercel.app/jwt", loggedInUser, {
             withCredentials: true,
           })
           .then((res) => {
@@ -71,7 +71,7 @@ const AuthProvider = ({ children }) => {
           });
       } else {
         axios
-          .post("http://localhost:5000/logout", loggedInUser, {
+          .post("https://coding-judge-server.vercel.app/logout", loggedInUser, {
             withCredentials: true,
           })
           .then((res) => {

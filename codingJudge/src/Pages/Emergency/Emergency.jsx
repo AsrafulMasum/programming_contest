@@ -3,7 +3,6 @@ import Container from "../../Layout/Container";
 
 function Emergency() {
   const { data: emergencies } = useLoadSecureData("/emergency");
-  console.log(emergencies);
   return (
     <div className="mt-12">
       <Container>

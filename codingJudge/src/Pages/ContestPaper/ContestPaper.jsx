@@ -17,7 +17,7 @@ function ContestPaper() {
   // Fetch dbUser data once the user is available
   useEffect(() => {
     const getDbUser = async () => {
-      const res = await fetch(`http://localhost:5000/users/${user?.email}`);
+      const res = await fetch(`https://coding-judge-server.vercel.app/users/${user?.email}`);
       const data = await res.json();
       setDbUser(data);
     };

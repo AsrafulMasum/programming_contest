@@ -66,7 +66,7 @@ const SignUp = () => {
         } else {
           signUpWithEmail(email, password)
             .then(() => {
-              fetch("http://localhost:5000/users", {
+              fetch("https://coding-judge-server.vercel.app/users", {
                 method: "POST",
                 headers: {
                   "content-type": "application/json",
