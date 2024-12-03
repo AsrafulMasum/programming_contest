@@ -1,25 +1,33 @@
-import useAuth from "../../Hooks/useAuth";
-import "react-datepicker/dist/react-datepicker.css";
-import { GrFormNextLink } from "react-icons/gr";
-import { useNavigate } from "react-router-dom";
+// Import necessary dependencies
+import useAuth from "../../Hooks/useAuth"; // Custom hook to manage authentication
+import "react-datepicker/dist/react-datepicker.css"; // Import datepicker styles
+import { GrFormNextLink } from "react-icons/gr"; // Import an icon for the 'Next' button
+import { useNavigate } from "react-router-dom"; // Hook to programmatically navigate between routes
 
 const CreateContest = () => {
+  // Initialize useNavigate hook for navigation
   const navigate = useNavigate();
+  
+  // Retrieve user data from the custom useAuth hook
   const { user } = useAuth();
+  
+  // If there's no authenticated user, reload the page
   if (!user) {
     window.location.reload();
   }
-  // const userEmail = user.email;
-
+  
+  // Handle form submission
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const form = e.target;
+    e.preventDefault(); // Prevent page reload on form submission
+    const form = e.target; // Get the form element
+    // Extract values from form fields
     const title = form.title.value;
     const contestCode = form.contestCode.value;
     const duration = form.duration.value;
     const numberOfQuestion = form.numberOfQuestion.value;
     const description = form.description.value;
 
+    // Create a contest object with the form data
     const contest = {
       title,
       contestCode,
@@ -27,21 +35,27 @@ const CreateContest = () => {
       numberOfQuestion,
       description,
     };
+    
+    // Store the contest data in local storage for later use
     localStorage.setItem("contest", JSON.stringify(contest));
-    // form.reset();
+
+    // Navigate to the next page ('/createQuestion') after form submission
     navigate("/createQuestion");
   };
 
+  // JSX structure for the "Create Contest" page
   return (
-    <div
-      className="-mt-[68px] min-h-screen pt-32 xl:pt-28 px-4 pb-10"
-    >
+    <div className="-mt-[68px] min-h-screen pt-32 xl:pt-28 px-4 pb-10">
+      {/* Container for the form */}
       <div className="w-full max-w-4xl p-6 m-auto mx-auto rounded border border-[#ABABAB]">
         <div>
+          {/* Heading for the form */}
           <h2 className="text-lg font-bold text-white">Create a Contest</h2>
         </div>
 
+        {/* Form for creating a contest */}
         <form onSubmit={handleSubmit} className="mt-6">
+          {/* Input field for contest title */}
           <div>
             <input
               type="text"
@@ -52,6 +66,7 @@ const CreateContest = () => {
             />
           </div>
 
+          {/* Input field for contest code */}
           <div>
             <input
               type="text"
@@ -62,6 +77,7 @@ const CreateContest = () => {
             />
           </div>
 
+          {/* Input field for contest duration */}
           <div>
             <input
               type="number"
@@ -72,6 +88,7 @@ const CreateContest = () => {
             />
           </div>
 
+          {/* Input field for the number of questions in the contest */}
           <div>
             <input
               type="number"
@@ -82,9 +99,9 @@ const CreateContest = () => {
             />
           </div>
 
+          {/* Textarea for the contest description */}
           <div>
             <textarea
-              type="text"
               name="description"
               placeholder="Description"
               required
@@ -92,6 +109,7 @@ const CreateContest = () => {
             />
           </div>
 
+          {/* Submit button */}
           <div className="mt-6">
             <button className="w-full px-6 py-2.5 font-medium tracking-wide rounded-sm bg-active-color text-black flex items-center gap-1 justify-center">
               Next <GrFormNextLink className="text-xl" />

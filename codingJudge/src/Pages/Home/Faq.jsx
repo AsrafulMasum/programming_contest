@@ -1,24 +1,31 @@
-import { useState } from "react";
-import Container from "../../Layout/Container";
+// Import necessary dependencies
+import { useState } from "react"; // React hook to manage state
+import Container from "../../Layout/Container"; // Layout component to wrap the content
 
 const Faq = () => {
+  // State to toggle between open and closed FAQ sections
   const [open, setOpen] = useState(false);
+
+  // Function to handle the opening and closing of FAQ sections
   const handleFAQ = (id) => {
-    setOpen(!open);
-    const element = document.getElementById(id);
+    setOpen(!open); // Toggle the open state
+    const element = document.getElementById(id); // Get the HTML element by its id
     if (open) {
+      // If the section is open, close it by removing 'collapse-open' and adding 'collapse-close'
       element.classList.remove("collapse-open");
       element.classList.add("collapse-close");
     } else {
+      // If the section is closed, open it by removing 'collapse-close' and adding 'collapse-open'
       element.classList.remove("collapse-close");
       element.classList.add("collapse-open");
     }
   };
 
   return (
-    <div className="bg-white py-20">
-      <Container>
+    <div className="bg-white py-20"> {/* Container for the whole FAQ section */}
+      <Container> {/* Wrap the content inside a layout container */}
         <section>
+          {/* Section for FAQ header */}
           <div className="text-center mb-10 space-y-4">
             <p className="tracking-widest font-bold text-secondary-color">
               OUR FAQ
@@ -27,21 +34,28 @@ const Faq = () => {
               Frequency And Questions
             </h2>
           </div>
+
+          {/* FAQ content area with two columns: one for questions and one for image */}
           <div className="flex flex-col-reverse lg:flex-row gap-10 items-center">
             <div className="lg:w-1/2">
+              {/* Each FAQ item is represented by a collapsible section */}
+              {/** The structure for each FAQ item is similar */}
               <div
                 id="accordion1"
-                className="collapse collapse-arrow cursor-pointer"
-                onClick={() => handleFAQ("accordion1")}
+                className="collapse collapse-arrow cursor-pointer" // Tailwind CSS classes for styling and collapse behavior
+                onClick={() => handleFAQ("accordion1")} // Trigger handleFAQ on click
               >
+                {/* Input radio button for toggle functionality (useful for accordion behavior) */}
                 <input
                   className="cursor-pointer"
                   type="radio"
-                  name="my-accordion"
+                  name="my-accordion" // Group all radios in the same accordion
                 />
+                {/* FAQ question title */}
                 <div className="collapse-title text-xl font-medium text-black">
                   What is the purpose of this website?
                 </div>
+                {/* FAQ answer content, collapsible */}
                 <div className="collapse-content">
                   <p className="text-gray-700">
                     This website is an online platform where coders from around
@@ -50,6 +64,8 @@ const Faq = () => {
                   </p>
                 </div>
               </div>
+
+              {/* Repeat the same structure for other FAQ items */}
               <div
                 id="accordion2"
                 className="collapse collapse-arrow cursor-pointer"
@@ -70,6 +86,7 @@ const Faq = () => {
                   </p>
                 </div>
               </div>
+
               <div
                 id="accordion3"
                 className="collapse collapse-arrow cursor-pointer"
@@ -90,6 +107,8 @@ const Faq = () => {
                   </p>
                 </div>
               </div>
+
+              {/* Additional FAQ items */}
               <div
                 id="accordion4"
                 className="collapse collapse-arrow cursor-pointer"
@@ -109,6 +128,7 @@ const Faq = () => {
                   </p>
                 </div>
               </div>
+
               <div
                 id="accordion5"
                 className="collapse collapse-arrow cursor-pointer"
@@ -129,6 +149,7 @@ const Faq = () => {
                   </p>
                 </div>
               </div>
+
               <div
                 id="accordion6"
                 className="collapse collapse-arrow cursor-pointer"
@@ -151,11 +172,13 @@ const Faq = () => {
                 </div>
               </div>
             </div>
+
+            {/* Image section */}
             <div className="lg:w-1/2">
               <img
                 className="w-full"
                 src="https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/faq-img.png"
-                alt=""
+                alt="FAQ illustration"
               />
             </div>
           </div>

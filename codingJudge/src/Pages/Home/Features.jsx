@@ -1,9 +1,11 @@
-import Container from "../../Layout/Container";
+// Import necessary dependencies
+import Container from "../../Layout/Container"; // Layout component for consistent page structure
 
 const Features = () => {
   return (
-    <div id="flow" className="bg-white pt-20">
-      <Container>
+    <div id="flow" className="bg-white pt-20"> {/* Outer container for the features section */}
+      <Container> {/* Wrap the content inside a layout container */}
+        {/* Section for Features header */}
         <div className="text-center mb-10 space-y-4">
           <p className="tracking-widest font-bold text-secondary-color">
             OUR FEATURES
@@ -13,19 +15,23 @@ const Features = () => {
           </h2>
         </div>
 
+        {/* Grid layout for displaying features */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          
+          {/* Individual feature item */}
           <div className="flex h-48">
             <div className="block max-w-sm p-6 bg-secondary-color rounded-lg shadow">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">
                 Collection of Contests
               </h5>
               <p className="font-normal text-gray-300">
-                There is lot of programming contests for students to enhance
-                their skills, creativity, and problem solving ideas.
+                There is a lot of programming contests for students to enhance
+                their skills, creativity, and problem-solving ideas.
               </p>
             </div>
           </div>
 
+          {/* Second feature item */}
           <div className="flex h-48">
             <div className="block max-w-sm p-6 bg-secondary-color rounded-lg shadow">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">
@@ -38,6 +44,7 @@ const Features = () => {
             </div>
           </div>
 
+          {/* Third feature item */}
           <div className="flex h-48">
             <div className="block max-w-sm p-6 bg-secondary-color rounded-lg shadow">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">
@@ -50,6 +57,7 @@ const Features = () => {
             </div>
           </div>
 
+          {/* Fourth feature item */}
           <div className="flex h-48">
             <div className="block max-w-sm p-6 bg-secondary-color rounded-lg shadow">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">
@@ -57,22 +65,24 @@ const Features = () => {
               </h5>
               <p className="font-normal text-gray-300">
                 Feature the grading system that enables teachers to efficiently
-                assess and provide feedback on each contests.
+                assess and provide feedback on each contest.
               </p>
             </div>
           </div>
 
+          {/* Fifth feature item */}
           <div className="flex h-48">
             <div className="block max-w-sm p-6 bg-secondary-color rounded-lg shadow">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">
                 Leaderboard
               </h5>
               <p className="font-normal text-gray-300">
-                See your appearence on the leaderboard by finishing contests properly in time.
+                See your appearance on the leaderboard by finishing contests properly and on time.
               </p>
             </div>
           </div>
 
+          {/* Sixth feature item */}
           <div className="flex h-48">
             <div className="block max-w-sm p-6 bg-secondary-color rounded-lg shadow">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">
