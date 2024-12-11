@@ -21,6 +21,7 @@ const SignUp = () => {
     password: "",
     confirmPassword: "",
     profileImage: null,
+    role: "User",
   });
 
   const axiosPublic = useAxiosPublic(); // Axios instance for API requests
@@ -61,7 +62,7 @@ const SignUp = () => {
           email: formData?.email,
           password: formData?.password,
           photo_url: photoURL,
-          role: "User",
+          role: formData?.role,
         };
 
         if (password !== confirmPassword) {
@@ -81,6 +82,7 @@ const SignUp = () => {
               })
                 .then((res) => res.json())
                 .then((data) => {
+                  console.log(data)
                   if (data?.result?.insertedId || data?.success) {
                     toast.success("Sign Up Successful.", { id: toastId });
 
@@ -94,7 +96,9 @@ const SignUp = () => {
                       });
 
                     // Log out the user after successful sign-up
-                    logOut().then(() => navigate("/login")).catch();
+                    logOut()
+                      .then(() => navigate("/login"))
+                      .catch();
                   }
                 });
             })
@@ -178,6 +182,31 @@ const SignUp = () => {
             </div>
           </div>
 
+          <div className="flex gap-4 mt-5 items-center">
+            <label className="text-white text-sm">
+              <input
+                type="radio"
+                name="role"
+                value="User"
+                checked={formData.role === "User"}
+                onChange={handleChange}
+                className="mr-2"
+              />
+              User
+            </label>
+            <label className="text-white text-sm">
+              <input
+                type="radio"
+                name="role"
+                value="Admin"
+                checked={formData.role === "Admin"}
+                onChange={handleChange}
+                className="mr-2"
+              />
+              Admin
+            </label>
+          </div>
+
           {/* Profile Image Upload */}
           <div className="mt-5 flex flex-col justify-center items-center gap-2 cursor-pointer">
             <input
@@ -189,7 +218,10 @@ const SignUp = () => {
               onChange={handleChange}
               required
             />
-            <label htmlFor="image" className="flex flex-col justify-center items-center gap-2 cursor-pointer text-white text-sm">
+            <label
+              htmlFor="image"
+              className="flex flex-col justify-center items-center gap-2 cursor-pointer text-white text-sm"
+            >
               <img className="w-6" src={addImage} alt="add profile photo" />
               <p>Upload Your Photo</p>
             </label>
@@ -213,7 +245,10 @@ const SignUp = () => {
         {/* Navigation to Log In */}
         <p className="mt-8 font-light text-center text-gray-300">
           Already have an account?{" "}
-          <Link to={"/logIn"} className="font-medium text-active-color hover:underline">
+          <Link
+            to={"/logIn"}
+            className="font-medium text-active-color hover:underline"
+          >
             Sign In
           </Link>
         </p>
