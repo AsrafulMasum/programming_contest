@@ -21,7 +21,6 @@ const SignUp = () => {
     password: "",
     confirmPassword: "",
     profileImage: null,
-    role: "User",
   });
 
   const axiosPublic = useAxiosPublic(); // Axios instance for API requests
@@ -62,7 +61,7 @@ const SignUp = () => {
           email: formData?.email,
           password: formData?.password,
           photo_url: photoURL,
-          role: formData?.role,
+          role: "User",
         };
 
         if (password !== confirmPassword) {
@@ -82,7 +81,7 @@ const SignUp = () => {
               })
                 .then((res) => res.json())
                 .then((data) => {
-                  console.log(data)
+                  console.log(data);
                   if (data?.result?.insertedId || data?.success) {
                     toast.success("Sign Up Successful.", { id: toastId });
 
@@ -113,7 +112,17 @@ const SignUp = () => {
   };
 
   return (
-    <div className="-mt-[68px] min-h-screen pt-24 xl:pt-28 px-4 pb-10">
+    <div
+      className="-mt-[68px] min-h-screen pt-24 xl:pt-28 px-4 pb-10"
+      style={{
+        background: `url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero-shape-3.png")`,
+        backgroundRepeat: "no-repeat", // Ensuring the background image does not repeat
+        backgroundSize: "cover", // Covering the entire section with the background image
+        backgroundPosition: "center", // Positioning the image at the center of the section
+        backgroundColor: "rgba(39, 18, 123, 0.3)", // Applying a semi-transparent black background color overlay
+        backgroundBlendMode: "overlay", // Blending the overlay with the image
+      }}
+    >
       <div className="w-full max-w-sm p-6 m-auto mx-auto rounded border border-[#ABABAB]">
         {/* Form Header */}
         <div>
@@ -180,31 +189,6 @@ const SignUp = () => {
             >
               {show1 ? <BsEyeSlash /> : <BsEye />}
             </div>
-          </div>
-
-          <div className="flex gap-4 mt-5 items-center">
-            <label className="text-white text-sm">
-              <input
-                type="radio"
-                name="role"
-                value="User"
-                checked={formData.role === "User"}
-                onChange={handleChange}
-                className="mr-2"
-              />
-              User
-            </label>
-            <label className="text-white text-sm">
-              <input
-                type="radio"
-                name="role"
-                value="Admin"
-                checked={formData.role === "Admin"}
-                onChange={handleChange}
-                className="mr-2"
-              />
-              Admin
-            </label>
           </div>
 
           {/* Profile Image Upload */}

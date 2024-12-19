@@ -16,7 +16,9 @@ const Navbar = () => {
   // Fetch user data from the server once the user is authenticated
   useEffect(() => {
     const getDbUser = async () => {
-      const res = await fetch(`https://coding-judge-server.vercel.app/users/${user?.email}`);
+      const res = await fetch(
+        `https://coding-judge-server.vercel.app/users/${user?.email}`
+      );
       const data = await res.json();
       setDbUser(data); // Setting the user data in the state
     };
@@ -80,7 +82,9 @@ const Navbar = () => {
   );
 
   return (
-    <div className="z-50 sticky top-0 bg-secondary-color"> {/* Navbar container */}
+    <div className="z-50 fixed w-full top-0 bg-secondary-color">
+      {" "}
+      {/* Navbar container */}
       <Container>
         <div className="w-full navbar px-0">
           {/* Hamburger menu for mobile */}
@@ -167,7 +171,7 @@ const Navbar = () => {
                   {/* Display login button if user is not authenticated */}
                   <Link
                     to={"/logIn"}
-                    className="text-white btn normal-case btn-sm px-6 hover:bg-active-color hover:text-black duration-500 font-medium border-none"
+                    className="text-white btn normal-case btn-sm px-6 bg-secondary-color border border-gray-600 hover:bg-active-color hover:text-black duration-500 font-medium hover:border-active-color"
                   >
                     Log In
                   </Link>

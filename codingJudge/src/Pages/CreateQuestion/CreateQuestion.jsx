@@ -8,11 +8,11 @@ function CreateQuestion() {
   // Initialize hooks
   const navigate = useNavigate(); // For navigation between routes
   const axiosSecure = useAxiosSecure(); // Custom Axios hook to handle secure API requests
-  
+
   // Retrieve contest data from localStorage and parse it into an object
   const contestJSON = localStorage.getItem("contest");
   const contest = JSON.parse(contestJSON);
-  
+
   // Extract the number of questions from the contest object, defaulting to 0 if not available
   const numberOfQuestion = contest ? parseInt(contest.numberOfQuestion) : 0;
 
@@ -43,10 +43,10 @@ function CreateQuestion() {
     if (res?.data?.insertedId) {
       // Show a success toast notification
       toast.success("Contest created successfully.");
-      
+
       // Remove the contest from localStorage as it's no longer needed
       localStorage.removeItem("contest");
-      
+
       // Navigate to the home page
       navigate("/");
     }
@@ -54,7 +54,17 @@ function CreateQuestion() {
 
   // JSX structure for the Create Question page
   return (
-    <div className="-mt-[68px] min-h-screen pt-20 xl:pt-28 px-4 pb-10">
+    <div
+      className="-mt-[68px] min-h-screen pt-20 xl:pt-28 px-4 pb-10"
+      style={{
+        background: `url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero-shape-3.png")`,
+        backgroundRepeat: "no-repeat", // Ensuring the background image does not repeat
+        backgroundSize: "cover", // Covering the entire section with the background image
+        backgroundPosition: "center", // Positioning the image at the center of the section
+        backgroundColor: "rgba(39, 18, 123, 0.3)", // Applying a semi-transparent black background color overlay
+        backgroundBlendMode: "overlay", // Blending the overlay with the image
+      }}
+    >
       {/* Container for the form */}
       <div className="w-full max-w-4xl p-6 m-auto mx-auto rounded border border-[#ABABAB]">
         <div>
@@ -87,7 +97,7 @@ function CreateQuestion() {
               type="submit" // Trigger the form submission
               className="w-full px-6 py-2.5 font-medium tracking-wide rounded-sm bg-active-color text-black flex items-center gap-1 justify-center"
             >
-              Submit Contest
+              Create Contest
             </button>
           </div>
         </form>

@@ -1,7 +1,7 @@
 const Loading = () => {
   return (
     <div
-      className="min-h-screen px-4"
+      className="px-4"
     >
       <div className="min-h-[80vh] flex justify-center items-center">
         <div className="flex items-center gap-2">

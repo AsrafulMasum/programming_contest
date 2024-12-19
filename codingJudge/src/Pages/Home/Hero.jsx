@@ -10,13 +10,11 @@ const Hero = () => {
       <div
         className="min-h-screen -mt-[68px] py-20 z-10" // Ensuring the hero section takes full screen height
         style={{
-          // Uncommented background URL for an alternate background image
-          // backgroundImage: 'url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero.png")',
-          background: `url(${hero_bg})`, // Background image of the hero section
+          background: `url(${hero_bg}), url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero-shape-3.png")`,
           backgroundRepeat: "no-repeat", // Ensuring the background image does not repeat
           backgroundSize: "cover", // Covering the entire section with the background image
           backgroundPosition: "center", // Positioning the image at the center of the section
-          backgroundColor: "rgba(0, 0, 0, 0.6)", // Applying a semi-transparent black background color overlay
+          backgroundColor: "rgba(0, 0, 0, 0.4)", // Applying a semi-transparent black background color overlay
           backgroundBlendMode: "overlay", // Blending the overlay with the image
         }}
       >

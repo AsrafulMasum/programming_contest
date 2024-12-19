@@ -9,12 +9,26 @@ function SubmittedContestDetailsForUser() {
   const { id } = useParams();
 
   // Fetch the submitted contest details using the custom hook
-  const { data: submittedContest } = useLoadSecureData(`/submittedContests/${id}`);
+  const { data: submittedContest } = useLoadSecureData(
+    `/submittedContests/${id}`
+  );
 
   // Fetch the contest details using the contest ID from the submitted contest data
-  const { data: contest } = useLoadSecureData(`/contests/${submittedContest?.contestId}`);
+  const { data: contest } = useLoadSecureData(
+    `/contests/${submittedContest?.contestId}`
+  );
   return (
-    <div className="-mt-[68px] min-h-screen pt-28 px-4 pb-10">
+    <div
+      className="-mt-[68px] min-h-screen pt-28 px-4 pb-10"
+      style={{
+        background: `url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero-shape-3.png")`,
+        backgroundRepeat: "no-repeat", // Ensuring the background image does not repeat
+        backgroundSize: "cover", // Covering the entire section with the background image
+        backgroundPosition: "center", // Positioning the image at the center of the section
+        backgroundColor: "rgba(39, 18, 123, 0.3)", // Applying a semi-transparent black background color overlay
+        backgroundBlendMode: "overlay", // Blending the overlay with the image
+      }}
+    >
       {/* Use the Container component for consistent layout */}
       <Container>
         {/* Render each question in the contest */}
@@ -24,15 +38,17 @@ function SubmittedContestDetailsForUser() {
               {/* Display question text */}
               <p>
                 <span className="text-xl">Question {idx + 1} :</span>{" "}
-                {question || "No question text available."} {/* Fallback if no question text */}
+                {question || "No question text available."}{" "}
+                {/* Fallback if no question text */}
               </p>
-              
+
               {/* Display feedback if available */}
               {submittedContest?.feedback?.length && (
                 <p>
                   Feedback :{" "}
                   <span className="text-active-color">
-                    {submittedContest?.feedback?.[idx]} {/* Feedback for this question */}
+                    {submittedContest?.feedback?.[idx]}{" "}
+                    {/* Feedback for this question */}
                   </span>
                 </p>
               )}

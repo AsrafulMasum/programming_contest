@@ -7,15 +7,15 @@ import { useNavigate } from "react-router-dom"; // Hook to programmatically navi
 const CreateContest = () => {
   // Initialize useNavigate hook for navigation
   const navigate = useNavigate();
-  
+
   // Retrieve user data from the custom useAuth hook
   const { user } = useAuth();
-  
+
   // If there's no authenticated user, reload the page
   if (!user) {
     window.location.reload();
   }
-  
+
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent page reload on form submission
@@ -35,7 +35,7 @@ const CreateContest = () => {
       numberOfQuestion,
       description,
     };
-    
+
     // Store the contest data in local storage for later use
     localStorage.setItem("contest", JSON.stringify(contest));
 
@@ -45,7 +45,17 @@ const CreateContest = () => {
 
   // JSX structure for the "Create Contest" page
   return (
-    <div className="-mt-[68px] min-h-screen pt-32 xl:pt-28 px-4 pb-10">
+    <div
+      className="-mt-[68px] min-h-screen pt-32 xl:pt-28 px-4 pb-10"
+      style={{
+        background: `url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero-shape-3.png")`,
+        backgroundRepeat: "no-repeat", // Ensuring the background image does not repeat
+        backgroundSize: "cover", // Covering the entire section with the background image
+        backgroundPosition: "center", // Positioning the image at the center of the section
+        backgroundColor: "rgba(39, 18, 123, 0.3)", // Applying a semi-transparent black background color overlay
+        backgroundBlendMode: "overlay", // Blending the overlay with the image
+      }}
+    >
       {/* Container for the form */}
       <div className="w-full max-w-4xl p-6 m-auto mx-auto rounded border border-[#ABABAB]">
         <div>

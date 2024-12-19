@@ -7,6 +7,7 @@ import useAuth from "../../Hooks/useAuth"; // Custom hook for accessing authenti
 import { useEffect, useState } from "react"; // React hooks for state and side effects
 import useAxiosSecure from "../../Hooks/useAxiosSecure"; // Custom hook for making secure API calls
 import useLoadPublicData from "../../Hooks/useLoadPublicData"; // Custom hook for public data fetching
+import Loading from "../Loading/Loading";
 
 function ContestDetails() {
   const axiosSecure = useAxiosSecure();
@@ -16,8 +17,12 @@ function ContestDetails() {
 
   const { user } = useAuth(); // Getting the authenticated user
   const [dbUser, setDbUser] = useState(null); // State to store user details fetched from the database
-  const { data: submittedContests } = useLoadSecureData(`/submittedContestsByUser/${user?.email}`); // Fetch user's submitted contests
-  const { data: emergencyData } = useLoadSecureData(`/emergency/${user?.email}`); // Fetch user's emergency status for contests
+  const { data: submittedContests } = useLoadSecureData(
+    `/submittedContestsByUser/${user?.email}`
+  ); // Fetch user's submitted contests
+  const { data: emergencyData, isLoading } = useLoadSecureData(
+    `/emergency/${user?.email}`
+  ); // Fetch user's emergency status for contests
   const { data } = useLoadPublicData(`/submittedContests`); // Fetch all submitted contests
 
   const isTaken = submittedContests?.some((item) => item.contestId === id); // Check if the user has already taken this contest
@@ -27,7 +32,9 @@ function ContestDetails() {
   useEffect(() => {
     // Fetch user details when the user is authenticated
     const getDbUser = async () => {
-      const res = await fetch(`https://coding-judge-server.vercel.app/users/${user?.email}`);
+      const res = await fetch(
+        `https://coding-judge-server.vercel.app/users/${user?.email}`
+      );
       const data = await res.json();
       setDbUser(data);
     };
@@ -126,30 +133,59 @@ function ContestDetails() {
   };
 
   return (
-    <div className="min-h-screen pt-24 px-4 pb-10">
+    <div
+      className="min-h-screen -mt-[68px] pt-32 px-4 pb-10"
+      style={{
+        background: `url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero-shape-3.png")`,
+        backgroundRepeat: "no-repeat", // Ensuring the background image does not repeat
+        backgroundSize: "cover", // Covering the entire section with the background image
+        backgroundPosition: "center", // Positioning the image at the center of the section
+        backgroundColor: "rgba(39, 18, 123, 0.3)", // Applying a semi-transparent black background color overlay
+        backgroundBlendMode: "overlay", // Blending the overlay with the image
+      }}
+    >
       <Container>
-        <>
-          {/* Contest details section */}
-          <h4 className="text-4xl font-semibold text-white">{contest?.title}</h4>
-          <p className="text-2xl mt-10 text-white">Duration : {contest?.duration} Min</p>
-          <p className="text-2xl mt-10 text-white">Code : <span className="text-active-color">{contest?.contestCode}</span></p>
-          <p className="text-2xl mt-10 text-white">Description : {contest?.description}</p>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <>
+            {/* Contest details section */}
+            <h4 className="text-4xl font-semibold text-white">
+              {contest?.title}
+            </h4>
+            <p className="text-2xl mt-10 text-white">
+              Duration : {contest?.duration} Min
+            </p>
+            <p className="text-2xl mt-10 text-white">
+              Code :{" "}
+              <span className="text-active-color">{contest?.contestCode}</span>
+            </p>
+            <p className="text-2xl mt-10 text-white">
+              Description : {contest?.description}
+            </p>
 
-          {/* Conditional button based on role */}
-          {dbUser?.role === "Admin" ? (
-            <div className="mt-10 flex justify-end">
-              <button onClick={handleDeleteContest} className="text-xl bg-active-color text-black px-10 py-2 rounded font-medium hover:scale-105 duration-500">
-                Delete The Contest
-              </button>
-            </div>
-          ) : (
-            <div className="mt-10 flex justify-end">
-              <button onClick={handleModal} className="text-xl bg-active-color text-black px-10 py-2 rounded font-medium hover:scale-105 duration-500">
-                Take The Contest
-              </button>
-            </div>
-          )}
-        </>
+            {/* Conditional button based on role */}
+            {dbUser?.role === "Admin" ? (
+              <div className="mt-10 flex justify-end">
+                <button
+                  onClick={handleDeleteContest}
+                  className="text-xl bg-active-color text-black px-10 py-2 rounded font-medium hover:scale-105 duration-500"
+                >
+                  Delete The Contest
+                </button>
+              </div>
+            ) : (
+              <div className="mt-10 flex justify-end">
+                <button
+                  onClick={handleModal}
+                  className="text-xl bg-active-color text-black px-10 py-2 rounded font-medium hover:scale-105 duration-500"
+                >
+                  Take The Contest
+                </button>
+              </div>
+            )}
+          </>
+        )}
       </Container>
     </div>
   );

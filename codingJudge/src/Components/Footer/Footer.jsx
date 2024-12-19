@@ -57,7 +57,7 @@ const Footer = () => {
 
   return (
     <div className="bg-white">
-      <footer className="footer footer-center pt-10 text-base-content rounded bg-secondary-color">
+      <footer className="footer footer-center pt-10 text-base-content bg-secondary-color">
         <div className="w-full flex justify-between max-w-screen-lg px-4 xl:px-0 xl:mx-auto border-b border-[#FFFFFF19] pb-10">
           <div className="flex justify-center items-center gap-2">
             <img className="w-10" src={logo} alt="Logo" /> {/* Logo image */}

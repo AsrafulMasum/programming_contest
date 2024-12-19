@@ -61,7 +61,17 @@ function SubmittedContestsDetails() {
     contest.questions.every((_, idx) => feedback[idx]);
 
   return (
-    <div className="-mt-[68px] min-h-screen pt-28 px-4 pb-10">
+    <div
+      className="-mt-[68px] min-h-screen pt-28 px-4 pb-10"
+      style={{
+        background: `url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero-shape-3.png")`,
+        backgroundRepeat: "no-repeat", // Ensuring the background image does not repeat
+        backgroundSize: "cover", // Covering the entire section with the background image
+        backgroundPosition: "center", // Positioning the image at the center of the section
+        backgroundColor: "rgba(39, 18, 123, 0.3)", // Applying a semi-transparent black background color overlay
+        backgroundBlendMode: "overlay", // Blending the overlay with the image
+      }}
+    >
       <Container>
         {/* Map through questions in the contest */}
         {contest?.questions?.map((question, idx) => (
