@@ -52,12 +52,12 @@ const Faq = () => {
                   name="my-accordion" // Group all radios in the same accordion
                 />
                 {/* FAQ question title */}
-                <div className="collapse-title text-xl font-medium text-black">
+                <div className="collapse-title text-xl font-medium text-secondary-color">
                   What is the purpose of this website?
                 </div>
                 {/* FAQ answer content, collapsible */}
                 <div className="collapse-content">
-                  <p className="text-gray-700">
+                  <p className="text-gray-500">
                     This website is an online platform where coders from around
                     the world compete in programming challenges to test and
                     improve their skills.
@@ -76,11 +76,11 @@ const Faq = () => {
                   type="radio"
                   name="my-accordion"
                 />
-                <div className="collapse-title text-xl font-medium text-black">
+                <div className="collapse-title text-xl font-medium text-secondary-color">
                   How do I participate in a contest?
                 </div>
                 <div className="collapse-content">
-                  <p className="text-gray-700">
+                  <p className="text-gray-500">
                     Simply log in, navigate to the &#34;Contests&#34; section, and
                     register for any ongoing or upcoming contest.
                   </p>
@@ -97,11 +97,11 @@ const Faq = () => {
                   type="radio"
                   name="my-accordion"
                 />
-                <div className="collapse-title text-xl font-medium text-black">
+                <div className="collapse-title text-xl font-medium text-secondary-color">
                   What programming languages are supported?
                 </div>
                 <div className="collapse-content">
-                  <p className="text-gray-700">
+                  <p className="text-gray-500">
                     We support popular languages like Python, JavaScript, Java,
                     C++, and more.
                   </p>
@@ -119,11 +119,11 @@ const Faq = () => {
                   type="radio"
                   name="my-accordion"
                 />
-                <div className="collapse-title text-xl font-medium text-black">
+                <div className="collapse-title text-xl font-medium text-secondary-color">
                   Can I participate in multiple contests?
                 </div>
                 <div className="collapse-content">
-                  <p className="text-gray-700">
+                  <p className="text-gray-500">
                     Absolutely! You can join as many contests as you&#39;d like.
                   </p>
                 </div>
@@ -139,11 +139,11 @@ const Faq = () => {
                   type="radio"
                   name="my-accordion"
                 />
-                <div className="collapse-title text-xl font-medium text-black">
+                <div className="collapse-title text-xl font-medium text-secondary-color">
                   How do I submit my code?
                 </div>
                 <div className="collapse-content">
-                  <p className="text-gray-700">
+                  <p className="text-gray-500">
                     Use the built-in code editor to write your solution, then
                     click &#34;Submit&#34; to run and evaluate your code.
                   </p>
@@ -160,11 +160,11 @@ const Faq = () => {
                   type="radio"
                   name="my-accordion"
                 />
-                <div className="collapse-title text-xl font-medium text-black">
+                <div className="collapse-title text-xl font-medium text-secondary-color">
                   How is the leaderboard calculated?
                 </div>
                 <div className="collapse-content">
-                  <p className="text-gray-700">
+                  <p className="text-gray-500">
                     Points are awarded based on problem difficulty, accuracy,
                     and submission time. The leaderboard reflects the top
                     performers.

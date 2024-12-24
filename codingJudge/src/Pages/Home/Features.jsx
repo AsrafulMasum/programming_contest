@@ -21,7 +21,7 @@ const Features = () => {
           {/* Individual feature item */}
           <div className="flex h-48">
             <div className="block max-w-sm p-6 bg-secondary-color rounded-lg shadow">
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-active-color">
                 Collection of Contests
               </h5>
               <p className="font-normal text-gray-300">
@@ -34,7 +34,7 @@ const Features = () => {
           {/* Second feature item */}
           <div className="flex h-48">
             <div className="block max-w-sm p-6 bg-secondary-color rounded-lg shadow">
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-active-color">
                 Deadline Management
               </h5>
               <p className="font-normal text-gray-300">
@@ -47,7 +47,7 @@ const Features = () => {
           {/* Third feature item */}
           <div className="flex h-48">
             <div className="block max-w-sm p-6 bg-secondary-color rounded-lg shadow">
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-active-color">
                 Submission Tracking
               </h5>
               <p className="font-normal text-gray-300">
@@ -60,7 +60,7 @@ const Features = () => {
           {/* Fourth feature item */}
           <div className="flex h-48">
             <div className="block max-w-sm p-6 bg-secondary-color rounded-lg shadow">
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-active-color">
                 Grading and Feedback
               </h5>
               <p className="font-normal text-gray-300">
@@ -73,7 +73,7 @@ const Features = () => {
           {/* Fifth feature item */}
           <div className="flex h-48">
             <div className="block max-w-sm p-6 bg-secondary-color rounded-lg shadow">
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-active-color">
                 Leaderboard
               </h5>
               <p className="font-normal text-gray-300">
@@ -85,7 +85,7 @@ const Features = () => {
           {/* Sixth feature item */}
           <div className="flex h-48">
             <div className="block max-w-sm p-6 bg-secondary-color rounded-lg shadow">
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">
+              <h5 className="mb-2 text-2xl font-bold tracking-tight text-active-color">
                 Role-Based Access
               </h5>
               <p className="font-normal text-gray-300">

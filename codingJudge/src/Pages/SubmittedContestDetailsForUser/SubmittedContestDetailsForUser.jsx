@@ -34,7 +34,7 @@ function SubmittedContestDetailsForUser() {
         {/* Render each question in the contest */}
         {contest?.questions?.map((question, idx) => (
           <div key={idx} className="mb-16 text-white font-medium">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center gap-10">
               {/* Display question text */}
               <p>
                 <span className="text-xl">Question {idx + 1} :</span>{" "}
@@ -44,7 +44,7 @@ function SubmittedContestDetailsForUser() {
 
               {/* Display feedback if available */}
               {submittedContest?.feedback?.length && (
-                <p>
+                <p className="min-w-40 flex justify-end gap-1">
                   Feedback :{" "}
                   <span className="text-active-color">
                     {submittedContest?.feedback?.[idx]}{" "}

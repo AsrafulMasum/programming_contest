@@ -490,21 +490,22 @@ app.get(
 app.get("/latestContest", verifyCookie, async (req, res) => {
   try {
     const latestContest = await contestsCollections
-      .find()
+      .find({ visibility: { $ne: "Hide" } }) // Exclude contests with visibility "Hide"
       .sort({ _id: -1 }) // Sort by _id in descending order to get the most recent
       .limit(1) // Limit to one result
-      .project({ _id: 1 }) // Only include the _id field in the result
+      .project({ _id: 1, visibility: 1 }) // Include _id and visibility fields for validation
       .toArray();
 
     if (latestContest.length === 0) {
-      return res.status(404).send({ message: "No contests found" });
+      return res.status(404).send({ message: "No contests found or all are hidden" });
     }
 
-    res.status(200).send(latestContest[0]); // Return the _id of the most recent contest
+    res.status(200).send(latestContest[0]); // Return the _id of the most recent visible contest
   } catch (error) {
     res.status(500).send({ message: "Error retrieving latest contest", error });
   }
 });
+
 
 // Server setup
 app.listen(port, () => {

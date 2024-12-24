@@ -91,7 +91,7 @@ const Footer = () => {
         </nav>
 
         {/* Footer copyright section */}
-        <aside className="bg-secondary-color w-full h-20">
+        <aside className="bg-secondary-color w-full h-16 flex justify-center items-start">
           <p className="text-white">
             Copyright © 2023 - All right reserved by{" "}
             <span className="text-active-color font-semibold">Coding Judge</span> Ltd

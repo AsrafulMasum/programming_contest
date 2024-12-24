@@ -30,16 +30,16 @@ const Hero = () => {
               are made.
             </p>
             {/* Main heading with gradient text */}
-            <h2 className="text-5xl md:text-6xl font-medium text-white w-5/6 mx-auto tracking-widest">
-              <span className="bg-gradient-to-r from-white to-active-color text-transparent bg-clip-text">
+            <h2 className="text-4xl md:text-5xl font-medium text-white w-5/6 mx-auto tracking-widest">
+              <span className="bg-gradient-to-r from-white to-active-color text-transparent bg-clip-text text-5xl md:text-6xl">
                 Code. Compete. Conquer. <br />
               </span>{" "}
-              Join the ultimate programming challenge today!
             </h2>
+            <h3 className="text-4xl md:text-5xl font-medium text-white w-5/6 mx-auto tracking-widest mt-5"> Join the ultimate programming challenge today!</h3>
             {/* Call-to-action button linking to the "flow" section */}
             <a
               href="#flow"
-              className="btn normal-case mt-10 text-lg btn-lg btn-wide bg-active-color border-none text-black hover:bg-secondary-color hover:text-white duration-500"
+              className="btn normal-case mt-10 text-lg btn-lg btn-wide bg-active-color border-none text-secondary-color hover:bg-secondary-color hover:text-white duration-500"
             >
               Read More
               <AiOutlinePlus className="text-xl" />{" "}
