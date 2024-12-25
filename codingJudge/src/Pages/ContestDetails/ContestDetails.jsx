@@ -51,7 +51,7 @@ function ContestDetails() {
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
-      cancelButtonColor: "#2f4858",
+      cancelButtonColor: "#1A064E",
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
@@ -64,7 +64,7 @@ function ContestDetails() {
               title: "Deleted!",
               text: "Contest has been deleted.",
               icon: "success",
-              confirmButtonColor: "#2f4858",
+              confirmButtonColor: "#1A064E",
             });
             navigate("/contests");
           }
@@ -76,7 +76,7 @@ function ContestDetails() {
               title: "Deleted!",
               text: "Contest has been deleted.",
               icon: "success",
-              confirmButtonColor: "#2f4858",
+              confirmButtonColor: "#1A064E",
             });
             navigate("/contests");
           }
@@ -92,7 +92,7 @@ function ContestDetails() {
         title: "Participated!",
         text: "You have already participated.",
         icon: "success",
-        confirmButtonColor: "#2f4858",
+        confirmButtonColor: "#1A064E",
       });
       navigate("/contests");
     } else if (onEmergency) {
@@ -100,7 +100,7 @@ function ContestDetails() {
         title: "On Emergency!",
         text: "You have faced issues on the contest.",
         icon: "success",
-        confirmButtonColor: "#2f4858",
+        confirmButtonColor: "#1A064E",
       });
       navigate("/contests");
     } else {
@@ -110,7 +110,7 @@ function ContestDetails() {
         text: "You want to take this contest!",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#2f4858",
+        confirmButtonColor: "#1A064E",
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, take it!",
       }).then(async (result) => {
@@ -120,7 +120,7 @@ function ContestDetails() {
             input: "text",
             inputLabel: "Contest Code",
             inputPlaceholder: "Enter The Contest Code",
-            confirmButtonColor: "#2f4858",
+            confirmButtonColor: "#1A064E",
           });
           if (contestCode && contestCode === contest?.contestCode) {
             navigate(`/contestPaper/${contest?._id}`);

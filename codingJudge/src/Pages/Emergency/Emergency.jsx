@@ -1,4 +1,5 @@
 // Import necessary dependencies
+import { Link } from "react-router-dom";
 import useLoadSecureData from "../../Hooks/useLoadSecureData"; // Custom hook to load secure data
 import Container from "../../Layout/Container"; // Container component for layout styling
 import Loading from "../Loading/Loading";
@@ -38,6 +39,7 @@ function Emergency() {
                   <th>Contest ID</th>
                   <th>User Email</th>
                   <th>Time left</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -54,6 +56,14 @@ function Emergency() {
                         <span>{emergency?.timeLeft.minutes}m</span> :{" "}
                         <span>{emergency?.timeLeft.seconds}s</span>
                       </td>
+                      <th>
+                        {/* Link to contest details page */}
+                        <Link
+                          className="btn-xs hover:bg-white text-black uppercase rounded bg-active-color py-[2px]"
+                        >
+                          Approve {/* Text for the link */}
+                        </Link>
+                      </th>
                     </tr>
                   ))
                 ) : (
