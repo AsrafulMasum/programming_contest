@@ -6,6 +6,7 @@ import { atomOneDark } from "react-syntax-highlighter/dist/esm/styles/hljs"; // 
 import Container from "../../Layout/Container"; // Layout component for consistent styling
 import useAxiosSecure from "../../Hooks/useAxiosSecure"; // Custom Axios instance for secure API calls
 import { toast } from "react-toastify"; // Toast notifications for feedback
+import Loading from "../Loading/Loading";
 
 function SubmittedContestsDetails() {
   const navigate = useNavigate(); // Navigation hook
@@ -13,12 +14,12 @@ function SubmittedContestsDetails() {
   const { id } = useParams(); // Extract contest ID from URL parameters
 
   // Load data for the submitted contest
-  const { data: submittedContest } = useLoadSecureData(
+  const { data: submittedContest, isLoading } = useLoadSecureData(
     `/submittedContests/${id}`
   );
 
   // Load data for the contest details
-  const { data: contest } = useLoadSecureData(
+  const { data: contest, isLoading: loading } = useLoadSecureData(
     `/contests/${submittedContest?.contestId}`
   );
 
@@ -73,92 +74,100 @@ function SubmittedContestsDetails() {
       }}
     >
       <Container>
-        {/* Map through questions in the contest */}
-        {contest?.questions?.map((question, idx) => (
-          <div key={idx} className="mb-10 text-white font-medium">
-            {/* Display question text */}
-            <p>
-              <span className="text-xl">Question {idx + 1} :</span>{" "}
-              {question || "No question text available."}
-            </p>
+        {isLoading && loading ? (
+          <Loading />
+        ) : (
+          <>
+            {/* Map through questions in the contest */}
+            {contest?.questions?.map((question, idx) => (
+              <div key={idx} className="mb-10 text-white font-medium">
+                {/* Display question text */}
+                <p>
+                  <span className="text-xl">Question {idx + 1} :</span>{" "}
+                  {question || "No question text available."}
+                </p>
 
-            {/* Display submitted answer */}
-            <p className="my-5">Answer :</p>
-            <SyntaxHighlighter language="javascript" style={atomOneDark}>
-              {submittedContest?.code?.[idx] || "// No code provided"}
-            </SyntaxHighlighter>
+                {/* Display submitted answer */}
+                <p className="my-5">Answer :</p>
+                <SyntaxHighlighter language="javascript" style={atomOneDark}>
+                  {submittedContest?.code?.[idx] || "// No code provided"}
+                </SyntaxHighlighter>
 
-            {/* Feedback section (only if the contest is pending) */}
-            {submittedContest?.status === "Pending" && (
-              <div className="my-4">
-                <p className="text-lg mb-2">Feedback:</p>
-                <div className="flex items-center">
-                  {/* Feedback options */}
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      name={`feedback-${idx}`} // Group inputs by question index
-                      value="Good"
-                      checked={feedback[idx] === "Good"}
-                      onChange={() => handleFeedbackChange(idx, "Good")}
-                    />
-                    <label className="mr-4">Good</label>
+                {/* Feedback section (only if the contest is pending) */}
+                {submittedContest?.status === "Pending" && (
+                  <div className="my-4">
+                    <p className="text-lg mb-2">Feedback:</p>
+                    <div className="flex items-center">
+                      {/* Feedback options */}
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="radio"
+                          name={`feedback-${idx}`} // Group inputs by question index
+                          value="Good"
+                          checked={feedback[idx] === "Good"}
+                          onChange={() => handleFeedbackChange(idx, "Good")}
+                        />
+                        <label className="mr-4">Good</label>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="radio"
+                          name={`feedback-${idx}`}
+                          value="Needs Improvement"
+                          checked={feedback[idx] === "Needs Improvement"}
+                          onChange={() =>
+                            handleFeedbackChange(idx, "Needs Improvement")
+                          }
+                        />
+                        <label className="mr-4">Needs Improvement</label>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="radio"
+                          name={`feedback-${idx}`}
+                          value="Incorrect"
+                          checked={feedback[idx] === "Incorrect"}
+                          onChange={() =>
+                            handleFeedbackChange(idx, "Incorrect")
+                          }
+                        />
+                        <label>Incorrect</label>
+                      </div>
+                    </div>
                   </div>
+                )}
+              </div>
+            ))}
 
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      name={`feedback-${idx}`}
-                      value="Needs Improvement"
-                      checked={feedback[idx] === "Needs Improvement"}
-                      onChange={() =>
-                        handleFeedbackChange(idx, "Needs Improvement")
-                      }
-                    />
-                    <label className="mr-4">Needs Improvement</label>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      name={`feedback-${idx}`}
-                      value="Incorrect"
-                      checked={feedback[idx] === "Incorrect"}
-                      onChange={() => handleFeedbackChange(idx, "Incorrect")}
-                    />
-                    <label>Incorrect</label>
-                  </div>
-                </div>
+            {/* Submit button for feedback */}
+            {submittedContest?.status === "Pending" ? (
+              <div className="mt-10 text-center">
+                <button
+                  onClick={handleSubmit}
+                  disabled={!allFeedbackProvided} // Disable if feedback is incomplete
+                  className={`px-6 py-2 font-bold rounded ${
+                    allFeedbackProvided
+                      ? "bg-active-color text-black hover:scale-105 duration-500"
+                      : "bg-gray-500 text-white cursor-not-allowed"
+                  }`}
+                >
+                  Submit Feedback
+                </button>
+              </div>
+            ) : (
+              // If feedback is already submitted, show link to leaderboard
+              <div className="flex justify-end">
+                <Link
+                  to={`/leaderboard/${submittedContest?.contestId}`}
+                  className="bg-active-color text-black text-2xl py-2 rounded px-10"
+                >
+                  Leaderboard
+                </Link>
               </div>
             )}
-          </div>
-        ))}
-
-        {/* Submit button for feedback */}
-        {submittedContest?.status === "Pending" ? (
-          <div className="mt-10 text-center">
-            <button
-              onClick={handleSubmit}
-              disabled={!allFeedbackProvided} // Disable if feedback is incomplete
-              className={`px-6 py-2 font-bold rounded ${
-                allFeedbackProvided
-                  ? "bg-active-color text-black hover:scale-105 duration-500"
-                  : "bg-gray-500 text-white cursor-not-allowed"
-              }`}
-            >
-              Submit Feedback
-            </button>
-          </div>
-        ) : (
-          // If feedback is already submitted, show link to leaderboard
-          <div className="flex justify-end">
-            <Link
-              to={`/leaderboard/${submittedContest?.contestId}`}
-              className="bg-active-color text-black text-2xl py-2 rounded px-10"
-            >
-              Leaderboard
-            </Link>
-          </div>
+          </>
         )}
       </Container>
     </div>
