@@ -19,7 +19,7 @@ function ContestPaper() {
   useEffect(() => {
     const getDbUser = async () => {
       const res = await fetch(
-        `https://coding-judge-server.vercel.app/users/${user?.email}`
+        `http://localhost:5000/users/${user?.email}`
       );
       const data = await res.json();
       setDbUser(data); // Update dbUser state with fetched data
@@ -148,11 +148,13 @@ function ContestPaper() {
       localStorage.removeItem(`targetDate_${dbUser?._id}_${id}`); // Clean up localStorage after submission
     }
   };
-
+  console.log(contest);
   // Handle emergency button press
   const handleEmergency = async () => {
+    
     const emergencyData = {
       contestId: contest?._id,
+      contestTitle: contest?.title,
       userEmail: dbUser?.email,
       timeLeft,
     };

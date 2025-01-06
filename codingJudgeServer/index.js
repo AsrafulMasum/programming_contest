@@ -23,7 +23,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // MongoDB connection
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@developingcluster.sfd1o.mongodb.net/?retryWrites=true&w=majority&appName=developingCluster`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@mycluster.eujoq.mongodb.net/?retryWrites=true&w=majority&appName=MyCluster`;
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -497,7 +497,9 @@ app.get("/latestContest", verifyCookie, async (req, res) => {
       .toArray();
 
     if (latestContest.length === 0) {
-      return res.status(404).send({ message: "No contests found or all are hidden" });
+      return res
+        .status(404)
+        .send({ message: "No contests found or all are hidden" });
     }
 
     res.status(200).send(latestContest[0]); // Return the _id of the most recent visible contest
@@ -505,7 +507,6 @@ app.get("/latestContest", verifyCookie, async (req, res) => {
     res.status(500).send({ message: "Error retrieving latest contest", error });
   }
 });
-
 
 // Server setup
 app.listen(port, () => {

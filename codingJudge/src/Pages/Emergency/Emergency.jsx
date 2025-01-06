@@ -7,7 +7,7 @@ import Loading from "../Loading/Loading";
 function Emergency() {
   // Use the custom hook to load data from the "/emergency" endpoint
   const { data: emergencies, isLoading } = useLoadSecureData("/emergency");
-
+console.log(emergencies)
   return (
     <div
       className="min-h-screen -mt-[68px] pt-32"

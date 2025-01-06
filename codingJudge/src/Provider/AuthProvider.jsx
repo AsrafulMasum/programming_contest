@@ -65,7 +65,7 @@ const AuthProvider = ({ children }) => {
       // If a user is logged in, get a JWT token
       if (currentUser) {
         axios
-          .post("https://coding-judge-server.vercel.app/jwt", loggedInUser, {
+          .post("http://localhost:5000/jwt", loggedInUser, {
             withCredentials: true, // Include cookies with requests
           })
           .then((res) => {
@@ -77,7 +77,7 @@ const AuthProvider = ({ children }) => {
       } else {
         // If no user is logged in, inform the server
         axios
-          .post("https://coding-judge-server.vercel.app/logout", loggedInUser, {
+          .post("http://localhost:5000/logout", loggedInUser, {
             withCredentials: true, // Include cookies with requests
           })
           .then((res) => {

@@ -14,7 +14,7 @@ const Footer = () => {
   useEffect(() => {
     const getDbUser = async () => {
       // Fetch user details from the backend using the email
-      const res = await fetch(`https://coding-judge-server.vercel.app/users/${user?.email}`);
+      const res = await fetch(`http://localhost:5000/users/${user?.email}`);
       const data = await res.json(); // Parsing the response JSON
       setDbUser(data); // Storing fetched user data in the state
     };

@@ -72,7 +72,7 @@ const SignUp = () => {
           signUpWithEmail(email, password)
             .then(() => {
               // Save user data to the backend
-              fetch("https://coding-judge-server.vercel.app/users", {
+              fetch("http://localhost:5000/users", {
                 method: "POST",
                 headers: {
                   "content-type": "application/json",

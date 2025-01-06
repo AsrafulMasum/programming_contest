@@ -13,7 +13,7 @@ const Drawer = () => {
   useEffect(() => {
     const getDbUser = async () => {
       // Fetch user details from the backend API using the logged-in user's email
-      const res = await fetch(`https://coding-judge-server.vercel.app/users/${user?.email}`);
+      const res = await fetch(`http://localhost:5000/users/${user?.email}`);
       const data = await res.json(); // Parse the response to JSON
       setDbUser(data); // Store the fetched user data in state
     };

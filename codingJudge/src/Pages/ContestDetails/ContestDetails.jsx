@@ -33,7 +33,7 @@ function ContestDetails() {
     // Fetch user details when the user is authenticated
     const getDbUser = async () => {
       const res = await fetch(
-        `https://coding-judge-server.vercel.app/users/${user?.email}`
+        `http://localhost:5000/users/${user?.email}`
       );
       const data = await res.json();
       setDbUser(data);
