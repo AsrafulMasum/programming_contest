@@ -380,6 +380,39 @@ app.post("/emergency", verifyCookie, async (req, res) => {
   }
 });
 
+app.put("/emergency/:id", verifyCookie, async (req, res) => {
+  try {
+    const id = req.params.id; // Extract the ID from the URL
+    const newField = req.body; // Extract the new field from the request body
+
+    // Validate the input data to ensure that it's not empty
+    if (!newField || Object.keys(newField).length === 0) {
+      return res.status(400).send({ message: "No data provided for update." });
+    }
+
+    // Convert the ID to a MongoDB ObjectId
+    const objectId = new ObjectId(id);
+
+    // Update the document by adding the new field (using $set)
+    const result = await emergencyCollections.updateOne(
+      { _id: objectId }, // Match the document by ID
+      { $set: newField } // Add the new field to the document
+    );
+
+    if (result.matchedCount === 0) {
+      return res.status(404).send({ message: "Emergency data not found." });
+    }
+
+    res.send({
+      message: "Emergency data updated successfully.",
+      success: true,
+      result,
+    });
+  } catch (error) {
+    res.status(500).send({ message: "Error updating emergency data.", error });
+  }
+});
+
 // Leaderboard routes
 app.get(
   "/leaderboard/:id",

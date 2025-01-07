@@ -7,7 +7,7 @@ function Contests() {
   const { data: contests, isLoading } = useLoadPublicData("/contests"); // Fetch contests data using the custom hook
   return (
     <div
-      className="-mt-[68px] min-h-screen pt-28 px-4" // Styling to set padding and margin for the container
+      className="-mt-[68px] min-h-screen pt-28 px-4 pb-10" // Styling to set padding and margin for the container
       style={{
         background: `url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero-shape-3.png")`,
         backgroundRepeat: "no-repeat", // Ensuring the background image does not repeat

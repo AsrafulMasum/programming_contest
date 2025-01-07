@@ -1,13 +1,20 @@
 // Import necessary dependencies
-import { Link } from "react-router-dom";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useLoadSecureData from "../../Hooks/useLoadSecureData"; // Custom hook to load secure data
 import Container from "../../Layout/Container"; // Container component for layout styling
 import Loading from "../Loading/Loading";
 
 function Emergency() {
+  const axiosSecure = useAxiosSecure();
   // Use the custom hook to load data from the "/emergency" endpoint
   const { data: emergencies, isLoading } = useLoadSecureData("/emergency");
-console.log(emergencies)
+
+  const handleApprove = async (id) => {
+    const res = await axiosSecure.put(`/emergency/${id}`, {
+      status: "Approved",
+    });
+    console.log(res?.data?.success);
+  };
   return (
     <div
       className="min-h-screen -mt-[68px] pt-32"
@@ -36,7 +43,7 @@ console.log(emergencies)
               {/* Table head with column names */}
               <thead className="text-active-color bg-secondary-color">
                 <tr>
-                  <th>Contest ID</th>
+                  <th>Contest Title</th>
                   <th>User Email</th>
                   <th>Time left</th>
                   <th>Action</th>
@@ -48,7 +55,8 @@ console.log(emergencies)
                   // Map through emergencies data and display each emergency in a row
                   emergencies?.map((emergency) => (
                     <tr key={emergency?._id} className="text-white">
-                      <th>{emergency?._id}</th> {/* Display Contest ID */}
+                      <th>{emergency?.contestTitle}</th>{" "}
+                      {/* Display Contest ID */}
                       <td>{emergency?.userEmail}</td> {/* Display User Email */}
                       <td>
                         {/* Format and display the time left */}
@@ -58,11 +66,12 @@ console.log(emergencies)
                       </td>
                       <th>
                         {/* Link to contest details page */}
-                        <Link
+                        <button
+                          onClick={() => handleApprove(emergency?._id)}
                           className="btn-xs hover:bg-white text-black uppercase rounded bg-active-color py-[2px]"
                         >
                           Approve {/* Text for the link */}
-                        </Link>
+                        </button>
                       </th>
                     </tr>
                   ))
