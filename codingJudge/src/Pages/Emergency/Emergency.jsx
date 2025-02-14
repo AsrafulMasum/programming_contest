@@ -1,4 +1,5 @@
 // Import necessary dependencies
+import { toast } from "react-toastify";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useLoadSecureData from "../../Hooks/useLoadSecureData"; // Custom hook to load secure data
 import Container from "../../Layout/Container"; // Container component for layout styling
@@ -7,14 +8,23 @@ import Loading from "../Loading/Loading";
 function Emergency() {
   const axiosSecure = useAxiosSecure();
   // Use the custom hook to load data from the "/emergency" endpoint
-  const { data: emergencies, isLoading } = useLoadSecureData("/emergency");
+  const {
+    data: emergencies,
+    isLoading,
+    refetch,
+  } = useLoadSecureData("/emergency");
 
   const handleApprove = async (id) => {
     const res = await axiosSecure.put(`/emergency/${id}`, {
       status: "Approved",
     });
     console.log(res?.data?.success);
+    if (res?.data?.success) {
+      toast.success("Approved");
+      refetch();
+    }
   };
+
   return (
     <div
       className="min-h-screen -mt-[68px] pt-32"
@@ -66,12 +76,22 @@ function Emergency() {
                       </td>
                       <th>
                         {/* Link to contest details page */}
-                        <button
-                          onClick={() => handleApprove(emergency?._id)}
-                          className="btn-xs hover:bg-white text-black uppercase rounded bg-active-color py-[2px]"
-                        >
-                          Approve {/* Text for the link */}
-                        </button>
+                        {emergency?.status ? (
+                          <button
+                            onClick={() => handleApprove(emergency?._id)}
+                            disabled
+                            className="btn-xs hover:bg-white text-black uppercase rounded bg-white py-[2px]"
+                          >
+                            Approved {/* Text for the link */}
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => handleApprove(emergency?._id)}
+                            className="btn-xs hover:bg-white text-black uppercase rounded bg-active-color py-[2px]"
+                          >
+                            Approve {/* Text for the link */}
+                          </button>
+                        )}
                       </th>
                     </tr>
                   ))
