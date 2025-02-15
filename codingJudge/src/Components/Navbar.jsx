@@ -71,7 +71,7 @@ const Navbar = () => {
         </li>
       )}
       {/* Render notification icon for Admin users */}
-      {user && dbUser?.role === "Admin" && (
+      {user && dbUser && (
         <li>
           <NavLink to={"/notifications"}>
             <ImNotification className="text-lg" />

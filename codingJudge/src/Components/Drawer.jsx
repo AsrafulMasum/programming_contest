@@ -9,16 +9,19 @@ const Drawer = () => {
   // State to store the user data fetched from the backend (e.g., user role)
   const [dbUser, setDbUser] = useState(null);
 
-  // useEffect hook to fetch user data from the backend when the component mounts or when the user state changes
+  // Fetch user data from the server once the user is authenticated
   useEffect(() => {
     const getDbUser = async () => {
-      // Fetch user details from the backend API using the logged-in user's email
-      const res = await fetch(`http://localhost:5000/users/${user?.email}`);
-      const data = await res.json(); // Parse the response to JSON
-      setDbUser(data); // Store the fetched user data in state
+      const res = await fetch(
+        `http://localhost:5000/users/${user?.email}`
+      );
+      const data = await res.json();
+      setDbUser(data); // Setting the user data in the state
     };
-    getDbUser(); // Call the async function to fetch user data
-  }, [user]); // Dependency on 'user' so that the effect runs when the 'user' state changes
+    if (user) {
+      getDbUser(); // Fetch the user data when the user is available
+    }
+  }, [user]);
 
   // Defining the navigation items conditionally based on the user's role
   const navItems = (

@@ -4,8 +4,25 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import useLoadSecureData from "../../Hooks/useLoadSecureData"; // Custom hook to load secure data
 import Container from "../../Layout/Container"; // Container component for layout styling
 import Loading from "../Loading/Loading";
+import useAuth from "../../Hooks/useAuth";
+import { useEffect, useState } from "react";
 
 function Emergency() {
+  const { user } = useAuth();
+  const [dbUser, setDbUser] = useState(null); // State for storing the user's details from the database
+
+  // Fetch user data from the server once the user is authenticated
+  useEffect(() => {
+    const getDbUser = async () => {
+      const res = await fetch(`http://localhost:5000/users/${user?.email}`);
+      const data = await res.json();
+      setDbUser(data); // Setting the user data in the state
+    };
+    if (user) {
+      getDbUser(); // Fetch the user data when the user is available
+    }
+  }, [user]);
+
   const axiosSecure = useAxiosSecure();
   // Use the custom hook to load data from the "/emergency" endpoint
   const {
@@ -56,6 +73,7 @@ function Emergency() {
                   <th>Contest Title</th>
                   <th>User Email</th>
                   <th>Time left</th>
+                  {dbUser?.role === "User" && <th>Status</th>}
                   <th>Action</th>
                 </tr>
               </thead>
@@ -74,25 +92,37 @@ function Emergency() {
                         <span>{emergency?.timeLeft.minutes}m</span> :{" "}
                         <span>{emergency?.timeLeft.seconds}s</span>
                       </td>
-                      <th>
-                        {/* Link to contest details page */}
-                        {emergency?.status ? (
+                      {dbUser?.role === "User" && <td>{emergency?.status}</td>}
+                      {dbUser?.role === "User" && (
+                        <th>
                           <button
-                            onClick={() => handleApprove(emergency?._id)}
-                            disabled
-                            className="btn-xs hover:bg-white text-black uppercase rounded bg-white py-[2px]"
-                          >
-                            Approved {/* Text for the link */}
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => handleApprove(emergency?._id)}
                             className="btn-xs hover:bg-white text-black uppercase rounded bg-active-color py-[2px]"
                           >
-                            Approve {/* Text for the link */}
+                            Retake {/* Text for the link */}
                           </button>
-                        )}
-                      </th>
+                        </th>
+                      )}
+                      {dbUser?.role === "Admin" && (
+                        <th>
+                          {/* Link to contest details page */}
+                          {emergency?.status ? (
+                            <button
+                              onClick={() => handleApprove(emergency?._id)}
+                              disabled
+                              className="btn-xs hover:bg-white text-black uppercase rounded bg-white py-[2px]"
+                            >
+                              Approved {/* Text for the link */}
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => handleApprove(emergency?._id)}
+                              className="btn-xs hover:bg-white text-black uppercase rounded bg-active-color py-[2px]"
+                            >
+                              Approve {/* Text for the link */}
+                            </button>
+                          )}
+                        </th>
+                      )}
                     </tr>
                   ))
                 ) : (

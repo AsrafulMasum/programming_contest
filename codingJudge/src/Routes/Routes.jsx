@@ -111,9 +111,9 @@ const Routes = createBrowserRouter([
         // Admin notifications or emergency page
         path: "notifications",
         element: (
-          <AdminRoutes>
+          <PrivateRoutes>
             <Emergency />
-          </AdminRoutes>
+          </PrivateRoutes>
         ),
       },
       {
