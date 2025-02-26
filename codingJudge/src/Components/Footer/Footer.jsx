@@ -61,7 +61,7 @@ const Footer = () => {
         <div className="w-full flex justify-between max-w-screen-lg px-4 xl:px-0 xl:mx-auto border-b border-[#FFFFFF19] pb-10">
           <div className="flex justify-center items-center gap-2">
             <img className="w-10" src={logo} alt="Logo" /> {/* Logo image */}
-            <span className="text-xl font-bold text-active-color">Coding Judge</span>
+            <span className="text-xl font-bold text-active-color">Code Forge</span>
           </div>
           <nav>
             <div className="grid grid-flow-col gap-8">
@@ -94,7 +94,7 @@ const Footer = () => {
         <aside className="bg-secondary-color w-full h-16 flex justify-center items-start">
           <p className="text-white">
             Copyright © 2023 - All right reserved by{" "}
-            <span className="text-active-color font-semibold">Coding Judge</span> Ltd
+            <span className="text-active-color font-semibold">Code Forge</span> Ltd
           </p>
         </aside>
       </footer>

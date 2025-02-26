@@ -16,9 +16,7 @@ const Navbar = () => {
   // Fetch user data from the server once the user is authenticated
   useEffect(() => {
     const getDbUser = async () => {
-      const res = await fetch(
-        `http://localhost:5000/users/${user?.email}`
-      );
+      const res = await fetch(`http://localhost:5000/users/${user?.email}`);
       const data = await res.json();
       setDbUser(data); // Setting the user data in the state
     };
@@ -113,7 +111,7 @@ const Navbar = () => {
           <div className="flex-1 flex items-center gap-2">
             <img className="w-10" src={logo} alt="Logo" />
             <span className="text-xl font-bold text-active-color">
-              Coding Judge
+              Code Forge
             </span>
           </div>
           {/* Navbar items (horizontal on large screens) */}

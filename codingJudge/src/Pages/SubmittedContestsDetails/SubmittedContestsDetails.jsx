@@ -149,7 +149,7 @@ function SubmittedContestsDetails() {
                   disabled={!allFeedbackProvided} // Disable if feedback is incomplete
                   className={`px-6 py-2 font-bold rounded ${
                     allFeedbackProvided
-                      ? "bg-active-color text-black hover:scale-105 duration-500"
+                      ? "bg-active-color text-secondary-color hover:scale-105 duration-500"
                       : "bg-gray-500 text-white cursor-not-allowed"
                   }`}
                 >
@@ -161,7 +161,7 @@ function SubmittedContestsDetails() {
               <div className="flex justify-end">
                 <Link
                   to={`/leaderboard/${submittedContest?.contestId}`}
-                  className="bg-active-color text-black text-2xl py-2 rounded px-10"
+                  className="bg-active-color text-secondary-color text-2xl py-2 rounded px-10"
                 >
                   Leaderboard
                 </Link>
