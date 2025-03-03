@@ -80,7 +80,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="z-50 fixed w-full top-0 bg-secondary-color">
+    <div className="z-50 fixed w-full top-0 bg-secondary-color shadow-2xl shadow-black">
       {" "}
       {/* Navbar container */}
       <Container>

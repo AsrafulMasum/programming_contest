@@ -1,26 +1,34 @@
 // Import necessary dependencies
 import Container from "../../Layout/Container"; // Layout component for consistent page structure
+import { FaLayerGroup, FaHourglassEnd } from "react-icons/fa";
+import {
+  FcProcess,
+  FcFeedback,
+  FcBarChart,
+  FcPortraitMode,
+} from "react-icons/fc";
 
 const Features = () => {
   return (
-    <div id="flow" className="bg-white pt-20"> {/* Outer container for the features section */}
-      <Container> {/* Wrap the content inside a layout container */}
+    <div className="bg-secondary-color pt-20 pb-10">
+      {" "}
+      {/* Outer container for the features section */}
+      <Container>
+        {" "}
+        {/* Wrap the content inside a layout container */}
         {/* Section for Features header */}
         <div className="text-center mb-10 space-y-4">
-          <p className="tracking-widest font-bold text-secondary-color">
-            OUR FEATURES
-          </p>
+          <p className="tracking-widest font-bold text-white">OUR FEATURES</p>
           <h2 className="text-4xl text-active-color font-semibold capitalize">
             What we provide
           </h2>
         </div>
-
         {/* Grid layout for displaying features */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          
           {/* Individual feature item */}
-          <div className="flex h-48">
-            <div className="block max-w-sm p-6 bg-secondary-color rounded-lg shadow">
+          <div className="flex">
+            <div className="block max-w-sm p-6">
+              <FaLayerGroup className="text-3xl mb-4 text-green-500" />
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-active-color">
                 Collection of Contests
               </h5>
@@ -32,8 +40,9 @@ const Features = () => {
           </div>
 
           {/* Second feature item */}
-          <div className="flex h-48">
-            <div className="block max-w-sm p-6 bg-secondary-color rounded-lg shadow">
+          <div className="flex">
+            <div className="block max-w-sm p-6">
+              <FaHourglassEnd className="text-3xl mb-4 text-red-600" />
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-active-color">
                 Deadline Management
               </h5>
@@ -45,21 +54,23 @@ const Features = () => {
           </div>
 
           {/* Third feature item */}
-          <div className="flex h-48">
-            <div className="block max-w-sm p-6 bg-secondary-color rounded-lg shadow">
+          <div className="flex">
+            <div className="block max-w-sm p-6">
+              <FcProcess className="text-4xl mb-4 text-primary-color" />
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-active-color">
                 Submission Tracking
               </h5>
               <p className="font-normal text-gray-300">
-                Showcase the feature that allows students to submit their
-                code online and track their submission history.
+                Showcase the feature that allows students to submit their code
+                online and track their submission history.
               </p>
             </div>
           </div>
 
           {/* Fourth feature item */}
-          <div className="flex h-48">
-            <div className="block max-w-sm p-6 bg-secondary-color rounded-lg shadow">
+          <div className="flex">
+            <div className="block max-w-sm p-6">
+              <FcFeedback className="text-4xl mb-4 text-white" />
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-active-color">
                 Grading and Feedback
               </h5>
@@ -71,20 +82,23 @@ const Features = () => {
           </div>
 
           {/* Fifth feature item */}
-          <div className="flex h-48">
-            <div className="block max-w-sm p-6 bg-secondary-color rounded-lg shadow">
+          <div className="flex">
+            <div className="block max-w-sm p-6">
+              <FcBarChart className="text-4xl mb-4 text-white" />
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-active-color">
                 Leaderboard
               </h5>
               <p className="font-normal text-gray-300">
-                See your appearance on the leaderboard by finishing contests properly and on time.
+                See your appearance on the leaderboard by finishing contests
+                properly and on time.
               </p>
             </div>
           </div>
 
           {/* Sixth feature item */}
-          <div className="flex h-48">
-            <div className="block max-w-sm p-6 bg-secondary-color rounded-lg shadow">
+          <div className="flex">
+            <div className="block max-w-sm p-6">
+              <FcPortraitMode className="text-4xl mb-4 text-white" />
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-active-color">
                 Role-Based Access
               </h5>
