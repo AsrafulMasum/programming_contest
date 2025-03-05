@@ -35,11 +35,15 @@ function Emergency() {
     const res = await axiosSecure.put(`/emergency/${id}`, {
       status: "Approved",
     });
-    console.log(res?.data?.success);
+
     if (res?.data?.success) {
       toast.success("Approved");
       refetch();
     }
+  };
+
+  const handleRetake = (id) => {
+    console.log(id);
   };
 
   return (
@@ -92,14 +96,26 @@ function Emergency() {
                         <span>{emergency?.timeLeft.minutes}m</span> :{" "}
                         <span>{emergency?.timeLeft.seconds}s</span>
                       </td>
-                      {dbUser?.role === "User" && <td>{emergency?.status}</td>}
+                      {dbUser?.role === "User" && (
+                        <td>{emergency?.status || "Pending"}</td>
+                      )}
                       {dbUser?.role === "User" && (
                         <th>
-                          <button
-                            className="btn-xs hover:bg-white text-black uppercase rounded bg-active-color py-[2px]"
-                          >
-                            Retake {/* Text for the link */}
-                          </button>
+                          {emergency?.status ? (
+                            <button
+                              onClick={() => handleRetake(emergency?._id)}
+                              className="btn-xs hover:bg-white text-black uppercase rounded bg-active-color py-[2px]"
+                            >
+                              Retake {/* Text for the link */}
+                            </button>
+                          ) : (
+                            <button
+                              disabled
+                              className="btn-xs hover:bg-white text-black uppercase  bg-white rounded py-[2px]"
+                            >
+                              Retake {/* Text for the link */}
+                            </button>
+                          )}
                         </th>
                       )}
                       {dbUser?.role === "Admin" && (

@@ -148,7 +148,6 @@ function ContestPaper() {
       localStorage.removeItem(`targetDate_${dbUser?._id}_${id}`); // Clean up localStorage after submission
     }
   };
-  console.log(contest);
   // Handle emergency button press
   const handleEmergency = async () => {
     
