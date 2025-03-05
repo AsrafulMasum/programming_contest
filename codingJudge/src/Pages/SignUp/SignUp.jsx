@@ -72,7 +72,7 @@ const SignUp = () => {
           signUpWithEmail(email, password)
             .then(() => {
               // Save user data to the backend
-              fetch("http://localhost:5000/users", {
+              fetch("https://code-forge-three.vercel.app/users", {
                 method: "POST",
                 headers: {
                   "content-type": "application/json",

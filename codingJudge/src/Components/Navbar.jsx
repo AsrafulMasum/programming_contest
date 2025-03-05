@@ -16,14 +16,20 @@ const Navbar = () => {
   // Fetch user data from the server once the user is authenticated
   useEffect(() => {
     const getDbUser = async () => {
-      const res = await fetch(`http://localhost:5000/users/${user?.email}`);
-      const data = await res.json();
-      setDbUser(data); // Setting the user data in the state
+      try {
+        const res = await fetch(
+          `https://code-forge-three.vercel.app/users/${user?.email}`
+        );
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
+        setDbUser(data);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
     };
-    if (user) {
-      getDbUser(); // Fetch the user data when the user is available
-    }
-  }, [user]);
+
+    if (user?.email) getDbUser();
+  }, [user?.email]);
 
   // Handle user logout
   const handleLogout = () => {

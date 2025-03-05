@@ -14,7 +14,7 @@ function AdminRoutes({ children }) {
   useEffect(() => {
     const getDbUser = async () => {
       // Fetch user data using the email stored in the `user` object
-      const res = await fetch(`http://localhost:5000/users/${user?.email}`);
+      const res = await fetch(`https://code-forge-three.vercel.app/users/${user?.email}`);
       const data = await res.json();
       setDbUser(data); // Update the local state with the fetched user data
     };

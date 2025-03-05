@@ -6,6 +6,7 @@ import Container from "../../Layout/Container"; // Container component for layou
 import Loading from "../Loading/Loading";
 import useAuth from "../../Hooks/useAuth";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function Emergency() {
   const { user } = useAuth();
@@ -14,7 +15,7 @@ function Emergency() {
   // Fetch user data from the server once the user is authenticated
   useEffect(() => {
     const getDbUser = async () => {
-      const res = await fetch(`http://localhost:5000/users/${user?.email}`);
+      const res = await fetch(`https://code-forge-three.vercel.app/users/${user?.email}`);
       const data = await res.json();
       setDbUser(data); // Setting the user data in the state
     };
@@ -102,12 +103,12 @@ function Emergency() {
                       {dbUser?.role === "User" && (
                         <th>
                           {emergency?.status ? (
-                            <button
+                            <Link
                               onClick={() => handleRetake(emergency?._id)}
                               className="btn-xs hover:bg-white text-black uppercase rounded bg-active-color py-[2px]"
                             >
                               Retake {/* Text for the link */}
-                            </button>
+                            </Link>
                           ) : (
                             <button
                               disabled
