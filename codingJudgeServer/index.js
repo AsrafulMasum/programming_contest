@@ -15,6 +15,7 @@ app.use(
       "http://localhost:5173",
       "https://programming-contest-20813.web.app",
       "https://codingjudge.netlify.app",
+      "https://code-forge.netlify.app",
     ],
     credentials: true,
   })
