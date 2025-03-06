@@ -15,7 +15,9 @@ function Emergency() {
   // Fetch user data from the server once the user is authenticated
   useEffect(() => {
     const getDbUser = async () => {
-      const res = await fetch(`https://code-forge-three.vercel.app/users/${user?.email}`);
+      const res = await fetch(
+        `https://code-forge-three.vercel.app/users/${user?.email}`
+      );
       const data = await res.json();
       setDbUser(data); // Setting the user data in the state
     };

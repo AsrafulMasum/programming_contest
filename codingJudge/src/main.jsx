@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ScrollToTopButton from "./Components/ScrollToTopButton.jsx";
 
 const queryClint = new QueryClient();
 
@@ -20,5 +21,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </QueryClientProvider>
     <Toaster />
     <ToastContainer />
+    <ScrollToTopButton />
   </React.StrictMode>
 );

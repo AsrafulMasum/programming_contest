@@ -10,7 +10,7 @@ import {
 
 const Features = () => {
   return (
-    <div className="bg-secondary-color pt-20 pb-10">
+    <div id="flow" className="bg-secondary-color pt-20 pb-10">
       {" "}
       {/* Outer container for the features section */}
       <Container>
