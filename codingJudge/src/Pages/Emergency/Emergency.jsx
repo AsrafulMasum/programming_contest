@@ -6,9 +6,11 @@ import Container from "../../Layout/Container"; // Container component for layou
 import Loading from "../Loading/Loading";
 import useAuth from "../../Hooks/useAuth";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function Emergency() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [dbUser, setDbUser] = useState(null); // State for storing the user's details from the database
 
@@ -35,18 +37,75 @@ function Emergency() {
   } = useLoadSecureData("/emergency");
 
   const handleApprove = async (id) => {
-    const res = await axiosSecure.put(`/emergency/${id}`, {
-      status: "Approved",
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#1A064E",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, approve it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await axiosSecure.put(`/emergency/${id}`, {
+          status: "Approved",
+        });
+        if (res?.data?.success) {
+          Swal.fire({
+            title: "Approved!",
+            text: "You approved this contest emergency.",
+            icon: "success",
+            confirmButtonColor: "#1A064E",
+          });
+          refetch();
+        }
+      }
     });
-
-    if (res?.data?.success) {
-      toast.success("Approved");
-      refetch();
-    }
   };
 
-  const handleRetake = (id) => {
-    console.log(id);
+  const handleRetake = async (id, emergencyId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#1A064E",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Take Retake!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          // Send a DELETE request to the server to delete the emergency record
+          const response = await axiosSecure.delete(
+            `/emergency/${emergencyId}`
+          );
+
+          if (response?.data?.success) {
+            // If successful, navigate to the contestPaper page
+            navigate(`/contestPaper/${id}`, { state: { retake: true } });
+          } else {
+            // If the response doesn't have the expected success field, log the message
+            toast.error(
+              response?.data?.message ||
+                "Failed to delete the emergency record."
+            );
+          }
+        } catch (error) {
+          // Handle specific errors based on status code or network issues
+          if (error.response?.status === 404) {
+            toast.error("Emergency record not found.");
+          } else if (
+            error.response?.status === 401 ||
+            error.response?.status === 403
+          ) {
+            toast.error("You are not authorized to perform this action.");
+          } else {
+            console.error("Error deleting emergency data:", error);
+            toast.error("Error deleting the emergency record.");
+          }
+        }
+      }
+    });
   };
 
   return (
@@ -105,12 +164,17 @@ function Emergency() {
                       {dbUser?.role === "User" && (
                         <th>
                           {emergency?.status ? (
-                            <Link
-                              onClick={() => handleRetake(emergency?._id)}
+                            <button
+                              onClick={() =>
+                                handleRetake(
+                                  emergency?.contestId,
+                                  emergency?._id
+                                )
+                              }
                               className="btn-xs hover:bg-white text-black uppercase rounded bg-active-color py-[2px]"
                             >
                               Retake {/* Text for the link */}
-                            </Link>
+                            </button>
                           ) : (
                             <button
                               disabled

@@ -414,6 +414,29 @@ app.put("/emergency/:id", verifyCookie, async (req, res) => {
   }
 });
 
+app.delete("/emergency/:id", verifyCookie, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate ObjectId format before deleting
+    if (!ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid emergency record ID." });
+    }
+
+    const objectId = new ObjectId(id);
+    const result = await emergencyCollections.deleteOne({ _id: objectId });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "Emergency data not found." });
+    }
+
+    res.status(200).json({ message: "Emergency data deleted successfully.", success: true });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting emergency data.", error: error.message });
+  }
+});
+
+
 // Leaderboard routes
 app.get(
   "/leaderboard/:id",

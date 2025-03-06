@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom"; // For navigation and route parameters
+import { useLocation, useNavigate, useParams } from "react-router-dom"; // For navigation and route parameters
 import Container from "../../Layout/Container"; // Custom layout container component
 import useLoadSecureData from "../../Hooks/useLoadSecureData"; // Custom hook for loading secure data
 import { useEffect, useState } from "react"; // React hooks for state management and side-effects
@@ -10,17 +10,23 @@ import Swal from "sweetalert2"; // SweetAlert2 for the emergency confirmation po
 import Loading from "../Loading/Loading";
 
 function ContestPaper() {
+  const location = useLocation();
   const navigate = useNavigate(); // For navigating between pages
   const axiosSecure = useAxiosSecure(); // For making secure axios requests
   const { user } = useAuth(); // To get the current authenticated user
   const [dbUser, setDbUser] = useState(null); // State to store user data from the database
+  const [isRetake, setIsRetake] = useState(false); // Add state for retake flag
+
+  useEffect(() => {
+    if (location.state?.retake) {
+      setIsRetake(true); // Set retake to true if state is present
+    }
+  }, [location.state]);
 
   // Fetch dbUser data once the user is available
   useEffect(() => {
     const getDbUser = async () => {
-      const res = await fetch(
-        `https://code-forge-three.vercel.app/users/${user?.email}`
-      );
+      const res = await fetch(`https://code-forge-three.vercel.app/users/${user?.email}`);
       const data = await res.json();
       setDbUser(data); // Update dbUser state with fetched data
     };
@@ -150,7 +156,6 @@ function ContestPaper() {
   };
   // Handle emergency button press
   const handleEmergency = async () => {
-    
     const emergencyData = {
       contestId: contest?._id,
       contestTitle: contest?.title,
@@ -163,7 +168,7 @@ function ContestPaper() {
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#2f4858",
+      confirmButtonColor: "#1A064E",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, Confirm!",
     }).then(async (result) => {
@@ -174,7 +179,7 @@ function ContestPaper() {
             title: "Notified!",
             text: "Your data has been sent to admin.",
             icon: "success",
-            confirmButtonColor: "#2f4858",
+            confirmButtonColor: "#1A064E",
           });
           navigate("/contests"); // Navigate back to contests page
           localStorage.removeItem(`targetDate_${dbUser?._id}_${id}`); // Clean up localStorage
@@ -246,17 +251,19 @@ function ContestPaper() {
               you wont be able to participate in the contest.
             </p>
             <div className="flex justify-end items-center w-full mt-10 pb-10 mr-5 gap-4">
-              <button
-                onClick={handleEmergency}
-                disabled={isTimeUp}
-                className={`${
-                  isTimeUp
-                    ? "bg-gray-400 cursor-not-allowed text-black"
-                    : "bg-red-600 duration-500 text-white"
-                } text-xl py-2 rounded btn-wide`}
-              >
-                Emergency
-              </button>
+              {!isRetake && (
+                <button
+                  onClick={handleEmergency}
+                  disabled={isTimeUp}
+                  className={`${
+                    isTimeUp
+                      ? "bg-gray-400 cursor-not-allowed text-black"
+                      : "bg-red-600 duration-500 text-white"
+                  } text-xl py-2 rounded btn-wide`}
+                >
+                  Emergency
+                </button>
+              )}
               <button
                 onClick={handleSubmit}
                 disabled={isTimeUp}
