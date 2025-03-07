@@ -12,16 +12,20 @@ const Drawer = () => {
   // Fetch user data from the server once the user is authenticated
   useEffect(() => {
     const getDbUser = async () => {
-      const res = await fetch(
-        `https://code-forge-three.vercel.app/users/${user?.email}`
-      );
-      const data = await res.json();
-      setDbUser(data); // Setting the user data in the state
+      try {
+        const res = await fetch(
+          `https://code-forge-three.vercel.app/users/${user?.email}`
+        );
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
+        setDbUser(data);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
     };
-    if (user) {
-      getDbUser(); // Fetch the user data when the user is available
-    }
-  }, [user]);
+
+    if (user?.email) getDbUser();
+  }, [user?.email]);
 
   // Defining the navigation items conditionally based on the user's role
   const navItems = (
@@ -36,21 +40,24 @@ const Drawer = () => {
       {/* If the user is logged in and their role is 'User', show the 'Submitted Contests' link */}
       {user && dbUser?.role === "User" && (
         <li>
-          <Link to={"/submittedContests"}>Submitted Contests</Link> {/* Link to submitted contests page */}
+          <Link to={"/submittedContests"}>Submitted Contests</Link>{" "}
+          {/* Link to submitted contests page */}
         </li>
       )}
 
       {/* If the user is logged in and their role is 'Admin', show the 'Create Contest' link */}
       {user && dbUser?.role === "Admin" && (
         <li>
-          <Link to={"/createContest"}>Create Contest</Link> {/* Link to create contest page */}
+          <Link to={"/createContest"}>Create Contest</Link>{" "}
+          {/* Link to create contest page */}
         </li>
       )}
 
       {/* If the user is logged in and their role is 'Admin', show the 'Submitted Contests' link */}
       {user && dbUser?.role === "Admin" && (
         <li>
-          <Link to={"/allSubmittedContests"}>Submitted Contests</Link> {/* Link to all submitted contests page */}
+          <Link to={"/allSubmittedContests"}>Submitted Contests</Link>{" "}
+          {/* Link to all submitted contests page */}
         </li>
       )}
     </>
