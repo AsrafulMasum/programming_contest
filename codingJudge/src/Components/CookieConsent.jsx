@@ -5,7 +5,7 @@ const CookieConsent = () => {
   const [cookiesBlocked, setCookiesBlocked] = useState(false);
 
   useEffect(() => {
-    // Check if all cookies are disabled in the browser settings
+    // Check if cookies are completely disabled
     if (!navigator.cookieEnabled) {
       console.warn("Cookies are completely disabled!");
       setCookiesBlocked(true);
@@ -16,7 +16,7 @@ const CookieConsent = () => {
     // Test if third-party cookies are blocked
     try {
       document.cookie = "test_cookie=1; path=/"; // Attempt to set a test cookie
-      
+
       // Check if the cookie is actually stored
       if (!document.cookie.includes("test_cookie")) {
         console.warn("Third-party cookies might be blocked!");
@@ -34,7 +34,7 @@ const CookieConsent = () => {
       return;
     }
 
-    // Check if the user has already accepted cookies
+    // Retrieve cookie consent from localStorage
     const consent = localStorage.getItem("cookieConsent");
     if (!consent) {
       setShowBanner(true);
@@ -43,17 +43,17 @@ const CookieConsent = () => {
 
   // Handle user accepting cookies
   const handleAccept = () => {
-    localStorage.setItem("cookieConsent", "true"); // Store consent in local storage
+    localStorage.setItem("cookieConsent", "true"); // Store consent in localStorage
     setShowBanner(false); // Hide the banner
   };
 
   return (
     showBanner && (
       <div
-        className="fixed bottom-0 left-0 w-full bg-gray-900 text-white p-4 flex justify-between items-center"
-        aria-live="assertive" // Announce changes to screen readers
+        className="fixed bottom-0 left-0 w-full bg-gray-900 text-white p-4 flex justify-between items-center z-50"
+        aria-live="polite" // Ensures screen readers announce the banner
       >
-        <p>
+        <p className="mr-4">
           {cookiesBlocked
             ? "Your browser has blocked cookies, which may cause issues. Please enable cookies for a better experience."
             : "This website uses cookies for authentication. Please accept to continue."}
