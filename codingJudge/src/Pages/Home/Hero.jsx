@@ -8,7 +8,7 @@ const Hero = () => {
     <section>
       {/* Hero Section: Full height with background and overlay */}
       <div
-        className="min-h-screen -mt-[68px] py-20 z-10" // Ensuring the hero section takes full screen height
+        className="min-h-screen -mt-[68px] py-20 z-10 flex justify-center items-center" // Ensuring the hero section takes full screen height
         style={{
           background: `url(${hero_bg}), url("https://themeforest.wprealizer.com/html-educoda-preview/educoda/assets/images/shape/hero-shape-3.png")`,
           backgroundRepeat: "no-repeat", // Ensuring the background image does not repeat
@@ -24,7 +24,7 @@ const Hero = () => {
             {" "}
             {/* Centering the text */}
             {/* Tagline at the top of the hero section */}
-            <p className="text-lg md:text-2xl text-white mb-6 mt-20">
+            <p className="text-lg md:text-2xl text-white mb-6">
               Where skills are tested, and{" "}
               <span className="text-active-color font-semibold">champions</span>{" "}
               are made.
@@ -42,7 +42,7 @@ const Hero = () => {
               className="btn normal-case mt-10 text-lg btn-lg btn-wide bg-active-color border-none text-secondary-color hover:bg-secondary-color hover:text-white duration-500"
             >
               Read More
-              <AiOutlinePlus className="text-xl" />{" "}
+              <AiOutlinePlus className="text-xl ml-2" />{" "}
               {/* Plus icon from react-icons */}
             </a>
           </div>
