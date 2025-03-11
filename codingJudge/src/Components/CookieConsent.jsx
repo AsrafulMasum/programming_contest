@@ -15,7 +15,7 @@ const CookieConsent = () => {
 
     // Test if third-party cookies are blocked
     try {
-      document.cookie = "test_cookie=1; path=/"; // Attempt to set a test cookie
+      document.cookie = "test_cookie=1; path=/"; // Attempt to set a test cookies
 
       // Check if the cookie is actually stored
       if (!document.cookie.includes("test_cookie")) {
